@@ -32,7 +32,7 @@ In order to compile you will need python 2.7.15+ 32bit version, also needed is [
 
 **The compile info is based on my own system, and is what i was using when compiling successfully.*
 
-###Using Pyinstaller
+### Using Pyinstaller
 
 You will need [pyinstaller](http://www.pyinstaller.org/), it can be installed with the follwing command: `pip install pyinstaller` 
 
