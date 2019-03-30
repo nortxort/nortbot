@@ -5,7 +5,7 @@ Commands have been grouped together depending on the user level required to use 
 
 The default prefix `!` for commands can be changed within the config.ini file. The prefix will be refereed to as `[p]` in this document.
 
-Commands will only be enabled, if the bot is using a moderator account. Also, commands work both by private and public chat message, unless otherwise stated.
+Commands will only be enabled, if the bot is using a moderator account. Also, commands work both by private and public chat message.
 
 *Commands marked with  * are private message commands only.*
 
@@ -37,7 +37,6 @@ The same applies to banning. **A user can not ban a user with a lower user level
 ## Level 1 OWNER Commands.
 
 `[p]key (new key)` - Sets a new secret key or shows the current key. If no new key is provided, the current key is shown. *
-
 
 `[p]clrbn` - Clear the nick bans file and memory.
 
@@ -79,7 +78,7 @@ The same applies to banning. **A user can not ban a user with a lower user level
 
 `[p]dapr (account)` - Remove a account from the permanent bot controller file.
 
-`[p]bb (mod account)` - Count user banned by a specific moderator.
+`[p]bb (mod account)` - Count user banned by a specific moderator. If not moderator account is provided, then the bots account will be used.
 
 `[p]noguest` - Toggle if guests should be allowed to join the room.
 
@@ -97,7 +96,7 @@ The same applies to banning. **A user can not ban a user with a lower user level
 
 `[p]top (number)` - Creates a playlist from the most played tunes on last.fm. The number option determines the max number of tunes to get.
 
- `[p]ran (number)` - Creates a playlist from tunes other people are listening to on last.fm. The number option determines the max number of tunes to get.
+`[p]ran (number)` - Creates a playlist from tunes other people are listening to on last.fm. The number option determines the max number of tunes to get.
 
 `[p]tag (search term)` - Searches last.fm for tunes matching the search term(tag).
 
@@ -124,7 +123,7 @@ The same applies to banning. **A user can not ban a user with a lower user level
 
 `[p]cpl` - Clear the playlist.
 
-`[p]spl` - Show playlist information.
+`[p]spl (ammount of tracks)` - Show playlist information. If amount of tracks is not set, then default of 5 will be used.
 
 `[p]yts (search term)` - Search youtube. This returns a list of items.
 
@@ -162,7 +161,7 @@ The same applies to banning. **A user can not ban a user with a lower user level
 
 `[p]sbl (username)` - Search the banlist.
 
-`[p]fg (usernane)` - Firgive a banned user.
+`[p]fg (usernane)` - Forgive a banned user.
 
 `[p]unb (username)` - Unban a banned user.
 

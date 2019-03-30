@@ -2,10 +2,9 @@
 
 A bot for tinychat chat rooms.
 
-This started out, with me wanting to change a file for the bot in the room i go to.
-I then realised that i could make a few improvements here and there. This bassicly led me to rewrite almost everything.
+This started out with some improvements to a few files for the bot, in the room i go to. This bassicly led to a complete rewrite of almost everything.
 
-One of it's new features is the use of a config.ini file. This should make it easy to compile it to an .exe file. For windows user that want a bot without having to deal with the python aspect, i have provided compiled windows executable in the [release](https://github.com/nortxort/nortbot/releases) section.
+For windows user that want a bot without having to deal with the python aspect, i have provided compiled windows executable in the [release](https://github.com/nortxort/nortbot/releases) section.
 
 
 ## Setup

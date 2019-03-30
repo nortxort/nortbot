@@ -16,7 +16,7 @@ This document describes the different config settings in config.ini. The differe
 
 **AntiCaptchaKey** - An [anti-captcha](https://anti-captcha.com/) API key.
 
-**FallbackRtcVersion** - Fall back RTC version, in casse parsing fails.
+**FallbackRtcVersion** - Fall back RTC version, in case parsing fails.
 
 **DebugFileName** - The name of the debug file.
 
