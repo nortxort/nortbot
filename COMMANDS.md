@@ -21,15 +21,17 @@ The user level system is as such:
 
 **Level 3 MODERATOR** - This user level is assigned room moderators.
 
-**Level 4 BOT_OP** This user level is assigned a user who has been made a bot controller by one of the following user levels: 1,2,3. It is also used for approved accounts.
+**Level 4 APPROVED** - This level is for approved accounts.
 
-**Level 5 DEFAULT** - This user level is assigned a normal user.
+**Level 5 BOT_OP** - Users can be assigned this level, by user level 1,2 and 3
+
+**Level 6 DEFAULT** - This user level is assigned a normal user.
 
 ### Some user level examples.
 
 When a user attempts to use a command, the bot will check if the user has the correct user level.
 
-This means, that a user with **Level 4 BOT_OP** can use **Level 4 BOT_OP** and **Level 5 DEFAULT** commands. A user with **Level 2 SUPER** can use **Level 2 SUPER**, **Level 3 MODERATOR**, **Level 4 BOT_OP** and **Level 5 DEFAULT** commands.
+This means, that a user with **Level 5 BOT\_OP** can use **Level 5 BOT_OP** and **Level 6 DEFAULT** commands. A user with **Level 2 SUPER** can use **Level 2 SUPER**, **Level 3 MODERATOR**, **Level 4 APPROVED**, **Level 5 BOT\_OP** and **Level 6 DEFAULT** commands.
 
 The same applies to banning. **A user can not ban a user with a lower user level!**
 
@@ -92,6 +94,8 @@ The same applies to banning. **A user can not ban a user with a lower user level
 
 `[p]kab` - Toggle kick as ban option.
 
+`[p]nob` - Toggle notify on ban/kick.
+
 `[p]rs` - Show room settings.
 
 `[p]top (number)` - Creates a playlist from the most played tunes on last.fm. The number option determines the max number of tunes to get.
@@ -106,8 +110,7 @@ The same applies to banning. **A user can not ban a user with a lower user level
 
 `[p]ssl` - Show the contents of the search list.
 
-
-## Level 4 BOT_OP Commands.
+## Level 4 APPROVED Commands.
 
 `[p]skip` - Skip to the next track in the playlist.
 
@@ -128,6 +131,9 @@ The same applies to banning. **A user can not ban a user with a lower user level
 `[p]yts (search term)` - Search youtube. This returns a list of items.
 
 `[p]pyts (search index)` - Play a previous search by index.
+
+
+## Level 5 BOT_OP Commands.
 
 `[p]clr` - Clear the chat box.
 
@@ -166,7 +172,7 @@ The same applies to banning. **A user can not ban a user with a lower user level
 `[p]unb (username)` - Unban a banned user.
 
 
-## Level 5 DEFAULT Commands.
+## Level 6 DEFAULT Commands.
 
 `[p]pmme` - Open a private session with the bot.
 

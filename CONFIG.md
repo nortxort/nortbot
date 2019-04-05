@@ -63,6 +63,8 @@ This document describes the different config settings in config.ini. The differe
 
 **KickAsAutoban** - Use kick instead of ban for auto ban.
 
+**NotifyOnBan** - Send a room message when a user gets banned/kicked.
+
 
 `[integers]`
 
