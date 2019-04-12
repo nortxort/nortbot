@@ -1,4 +1,5 @@
-## Commands (76)
+
+## Commands
 
 This document describes the different commands.
 Commands have been grouped together depending on the user level required to use them.
@@ -31,12 +32,12 @@ The user level system is as such:
 
 When a user attempts to use a command, the bot will check if the user has the correct user level.
 
-This means, that a user with **Level 5 BOT\_OP** can use **Level 5 BOT_OP** and **Level 6 DEFAULT** commands. A user with **Level 2 SUPER** can use **Level 2 SUPER**, **Level 3 MODERATOR**, **Level 4 APPROVED**, **Level 5 BOT\_OP** and **Level 6 DEFAULT** commands.
+This means, that a user with **BOT\_OP** can use **BOT_OP** and **DEFAULT** commands. A user with **SUPER** can use **SUPER**, **MODERATOR**, **APPROVED**, **BOT\_OP** and **DEFAULT** commands.
 
 The same applies to banning. **A user can not ban a user with a lower user level!**
 
 
-## Level 1 OWNER Commands.
+## OWNER(1) Commands.
 
 `[p]key (new key)` - Sets a new secret key or shows the current key. If no new key is provided, the current key is shown. *
 
@@ -63,14 +64,14 @@ The same applies to banning. **A user can not ban a user with a lower user level
 `[p]p2p` - Toggle if the room should be in push to talk mode.
 
 
-## Level 2 SUPER Commands.
+## SUPER(2) Commands.
 
 `[p]mi` - Show media information.
 
 `[p]dev` - Not implemented.
 
 
-## Level 3 MODERATOR Commands.
+## MODERATOR(3) Commands.
 
 `[p]op (username)` - Make a user a temporary bot controller. User will only be a bot operator for as long as the user or bot stays in the room.
 
@@ -110,7 +111,17 @@ The same applies to banning. **A user can not ban a user with a lower user level
 
 `[p]ssl` - Show the contents of the search list.
 
-## Level 4 APPROVED Commands.
+`[p]lc (room name)` - Start the live count. Room name is optional, if not provided, the live count will still be active.
+
+`[p]lcw (room name)` - Set or change the live count watch room.
+
+`[p]lci (interval)` - Set the live count interval. the interval is in seconds.
+
+`[p]lcm` - Show the most active room on the live count.
+
+`[p]lcc` - Close the live count.
+
+## APPROVED(4) Commands.
 
 `[p]skip` - Skip to the next track in the playlist.
 
@@ -126,14 +137,14 @@ The same applies to banning. **A user can not ban a user with a lower user level
 
 `[p]cpl` - Clear the playlist.
 
-`[p]spl (ammount of tracks)` - Show playlist information. If amount of tracks is not set, then default of 5 will be used.
+`[p]spl (ammount of tracks)` - Show playlist information. If amount of tracks is not set, then default of 3 will be used.
 
 `[p]yts (search term)` - Search youtube. This returns a list of items.
 
 `[p]pyts (search index)` - Play a previous search by index.
 
 
-## Level 5 BOT_OP Commands.
+## BOT_OP(5) Commands.
 
 `[p]clr` - Clear the chat box.
 
@@ -163,6 +174,8 @@ The same applies to banning. **A user can not ban a user with a lower user level
 
 `[p]is (instagram user)` - Search instagram.
 
+`[p]porn (keyword)` - Search for porn.
+
 `[p]close (username)` - Close a users broadcast.
 
 `[p]sbl (username)` - Search the banlist.
@@ -172,7 +185,7 @@ The same applies to banning. **A user can not ban a user with a lower user level
 `[p]unb (username)` - Unban a banned user.
 
 
-## Level 6 DEFAULT Commands.
+## DEFAULT(6) Commands.
 
 `[p]pmme` - Open a private session with the bot.
 
