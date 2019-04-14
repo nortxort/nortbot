@@ -68,8 +68,6 @@ The same applies to banning. **A user can not ban a user with a lower user level
 
 `[p]mi` - Show media information.
 
-`[p]dev` - Not implemented.
-
 
 ## MODERATOR(3) Commands.
 
@@ -77,7 +75,7 @@ The same applies to banning. **A user can not ban a user with a lower user level
 
 `[p]deop (username)` - Remove a temporary bot controller .
 
-`[p]apr (username)` - Make a user a permanent bot controller. This is only possible if the user is signed.
+`[p]apr (username)` - Make a user a permanent bot controller. This is only possible if the user is signed in.
 
 `[p]dapr (account)` - Remove a account from the permanent bot controller file.
 
@@ -91,7 +89,7 @@ The same applies to banning. **A user can not ban a user with a lower user level
 
 `[p]greet` - Toggle greet message.
 
-`[p]pub` - Toggle if public commands should be enabled. This means if the **Level 5 DEFAULT** commands should be enabled for any user.
+`[p]pub` - Toggle if public commands should be enabled. This means if the **DEFAULT** commands should be enabled for any user.
 
 `[p]kab` - Toggle kick as ban option.
 
