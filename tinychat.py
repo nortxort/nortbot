@@ -238,6 +238,7 @@ class Client:
         elif code == 5:
             self.console.write('Reconnect code? %s' % code,
                                Color.B_RED)
+            self.reconnect()
         elif code == 6:
             self.console.write('Double account sign in.',
                                Color.B_RED)
@@ -255,7 +256,11 @@ class Client:
         elif code == 12:
             self.console.write('You have been kicked by a moderator.',
                                Color.B_RED)
-
+            self.reconnect()
+        elif code == 22:
+            self.console.write('You must be at least 18 years old and '
+                               'signed in to a verified Tinychat account to join this room',
+                               Color.B_RED)
         else:
             self.console.write('Connection was closed, code: %s' % code,
                                Color.B_RED)
