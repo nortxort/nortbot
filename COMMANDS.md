@@ -113,9 +113,13 @@ The same applies to banning. **A user can not ban a user with a lower user level
 
 `[p]lcw (room name)` - Set or change the live count watch room.
 
+`[p]lcr (room name)` - Remove a room name from the live count.
+
 `[p]lci (interval)` - Set the live count interval. the interval is in seconds.
 
 `[p]lcm` - Show the most active room on the live count.
+
+`[p]lcs` - Show live count status.
 
 `[p]lcc` - Close the live count.
 

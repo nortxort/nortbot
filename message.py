@@ -108,7 +108,7 @@ class YoutubeMessage:
         return self._ts
 
     @property
-    def msg_type(self):
+    def type(self):
         """
         The message type of the youtube.
 

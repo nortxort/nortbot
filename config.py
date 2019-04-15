@@ -30,7 +30,7 @@ import sys
 from ConfigParser import SafeConfigParser
 
 # bot version
-__version__ = '1.0.0.5'
+__version__ = '1.0.0.6'
 
 # default config sections
 CONFIG_SECTIONS = ['strings', 'booleans', 'integers']

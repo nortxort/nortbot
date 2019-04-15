@@ -30,7 +30,6 @@ import json
 
 import websocket
 
-
 log = logging.getLogger(__name__)
 
 
@@ -88,7 +87,7 @@ class LiveCount:
         :type watch: str | None
         """
         self._bot = bot
-        self._watch_room = watch
+        self._watch_rooms = [watch]
         self._watch_interval = 20
 
         self._last_update_time = 0
@@ -106,7 +105,6 @@ class LiveCount:
         """
         return self._connected
 
-    @property
     def most_active(self):
         """
         Returns the most active room.
@@ -114,17 +112,49 @@ class LiveCount:
         :return: The room with the most users.
         :rtype: Room
         """
-        return self._most_active
+        if self.connected:
+            ma = 'Most active: %s, Users: %s, Broadcasters: %s' % \
+                 (self._most_active.name, self._most_active.users,
+                  self._most_active.broadcasters)
 
-    def set_watch_room(self, room_name):
+            self._bot.responder(ma)
+
+    def status(self):
+        """
+        Show live count status.
+        """
+        if self.connected:
+            stats = ['Live connected: %s' % self.connected,
+                     'Live count watch room %s' % len(self._watch_rooms),
+                     'Live count interval: %s' % self._watch_interval,
+                     'Most active room: %s' % self.most_active]
+
+            self._bot.responder('\n'.join(stats))
+
+    def add_watch_room(self, room_name):
         """
         Set a room name to watch live count for.
 
         :param room_name: The room name to watch.
         :type room_name: str
         """
-        self._watch_room = room_name
-        self._bot.responder('Live count watch room: %s' % room_name)
+        if self.connected:
+            self._watch_rooms.append(room_name)
+            self._bot.responder('Added %s to live watch.' % room_name)
+
+    def remove_watch_room(self, room_name):
+        """
+        Remove a room name from the live count watch rooms.
+
+        :param room_name: The room name to remove.
+        :type room_name: str
+        """
+        if self.connected:
+            if room_name in self._watch_rooms:
+                self._watch_rooms.remove(room_name)
+                self._bot.responder('Removed %s from watch rooms.' % room_name)
+            else:
+                self._bot.responder('%s is not in the watch rooms.' % room_name)
 
     def set_watch_interval(self, interval):
         """
@@ -133,8 +163,9 @@ class LiveCount:
         :param interval: Watch interval time in seconds.
         :type interval: int
         """
-        self._watch_interval = interval
-        self._bot.responder('Live count watch interval: %s' % interval)
+        if self.connected:
+            self._watch_interval = interval
+            self._bot.responder('Live count watch interval: %s' % interval)
 
     def connect(self):
         """
@@ -164,11 +195,12 @@ class LiveCount:
         """
         Disconnect from the websocket.
         """
-        self._bot.responder('closing live count.')
+        self._bot.responder('Closing live count.')
         # if self._ws is not None and self._connected:
         #     self._ws.send_close(1001, 'GoingAway')
         self._connected = False
         self._ws = None
+        self._watch_rooms = []
 
     def on_update(self, data):
         """
@@ -181,6 +213,7 @@ class LiveCount:
 
         ts = time.time()
 
+        rooms = []
         for room_data in data:
             room = Room(**room_data)
 
@@ -188,17 +221,17 @@ class LiveCount:
             if room.users > self._most_active.users:
                 self._most_active = room
 
-            # is the watch room set?
-            if self._watch_room is not None:
+            # is there any room to watch for?
+            if len(self._watch_rooms) > 0:
+                if room.name in self._watch_rooms:
+                    info = 'Watching: %s, Users: %s, Broadcasters: %s' % \
+                           (room.name, room.users, room.broadcasters)
+                    rooms.append(info)
 
-                # if the watch room is in the updated rooms..
-                if self._watch_room == room.name:
-
-                    # only send a message if >= watch interval
-                    if ts - self._last_update_time >= self._watch_interval:
-                        self._last_update_time = ts
-                        self._bot.responder('Watching: %s, Users: %s, Broadcasters: %s' %
-                                            (room.name, room.users, room.broadcasters))
+        if len(rooms) > 0:
+            if ts - self._last_update_time >= self._watch_interval:
+                self._last_update_time = ts
+                self._bot.responder('\n'.join(rooms))
 
     def _listener(self):
         while self.connected:

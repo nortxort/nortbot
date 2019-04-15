@@ -211,11 +211,17 @@ class CommandHandler:
             elif cmd == 'lcw':
                 self.do_live_count_watch_room(cmd_arg)  # new
 
+            elif cmd == 'lcr':
+                self.do_remove_live_count_room(cmd_arg)  # new
+
             elif cmd == 'lci':
                 self.do_live_count_interval(cmd_arg)  # new
 
             elif cmd == 'lcm':
                 self.do_live_count_most_active()  # new
+
+            elif cmd == 'lcs':
+                self.do_live_count_status()  # new
 
             elif cmd == 'lcc':
                 self.do_live_count_close()  # new
@@ -1109,13 +1115,26 @@ class CommandHandler:
         :param room_name: The room name to watch .
         :type room_name: str
         """
-        if len(room_name) == 0:
+        if self._bot.live_count is None:
+            self._responder('Live count not connected.')
+        elif len(room_name) == 0:
             self._responder('No watch room provided')
         else:
-            if self._bot.live_count is None:
-                self._responder('Live count not connected.')
-            elif self._bot.live_count is not None and self._bot.live_count.connected:
-                self._bot.live_count.set_watch_room(room_name)
+            self._bot.live_count.add_watch_room(room_name)
+
+    def do_remove_live_count_room(self, room_name):
+        """
+        Remove a room name from the live count watch.
+
+        :param room_name: The room name to remove.
+        :type room_name: str
+        """
+        if self._bot.live_count is None:
+            self._responder('Live count is not connected.')
+        elif len(room_name) == 0:
+            self._responder('No room name provided.')
+        else:
+            self._bot.live_count.remove_watch_room(room_name)
 
     def do_live_count_interval(self, interval):  # TODO: TEST
         """
@@ -1131,7 +1150,7 @@ class CommandHandler:
         else:
             if self._bot.live_count is None:
                 self._responder('Live count not connected.')
-            elif self._bot.live_count is not None and self._bot.live_count.connected:
+            else:
                 self._bot.live_count.set_watch_interval(interval)
 
     def do_live_count_most_active(self):  # TODO: TEST
@@ -1140,11 +1159,17 @@ class CommandHandler:
         """
         if self._bot.live_count is None:
             self._responder('Live count not connected.')
-        elif self._bot.live_count is not None and self._bot.live_count.connected:
-            self._responder('Live count most active: %s Users: %s, Broadcasters: %s' %
-                            (self._bot.live_count.most_active.name,
-                             self._bot.live_count.most_active.users,
-                             self._bot.live_count.most_active.broadcasters))
+        else:
+            self._bot.live_count.most_active()
+
+    def do_live_count_status(self):
+        """
+        Live count status.
+        """
+        if self._bot.live_count is None:
+            self._responder('Live count not connected.')
+        else:
+            self._bot.live_count.status()
 
     def do_live_count_close(self):
         """
@@ -1154,6 +1179,7 @@ class CommandHandler:
             self._responder('Live count not connected.')
         else:
             self._bot.live_count.disconnect()
+            self._bot.live_count = None
 
     # BOT_OP Command Methods.
     def do_clear(self):
