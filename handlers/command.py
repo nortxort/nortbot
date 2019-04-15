@@ -1222,7 +1222,7 @@ class CommandHandler:
                     for i, user in enumerate(_users):
                         if user.nick != self._bot.nick and user.level > self._user.level:
                             if i <= self._conf.MAX_MATCH_BANS - 1:
-                                self._bot.send_kick_msg(user.id)
+                                self._bot.send_kick_msg(user.handle)
             else:
                 _user = self._bot.users.search_by_nick(user_name)
                 if _user is None:
@@ -1230,7 +1230,7 @@ class CommandHandler:
                 elif _user.level < self._user.level:
                     self._responder('Not allowed.')
                 else:
-                    self._bot.send_kick_msg(_user.id)
+                    self._bot.send_kick_msg(_user.handle)
 
     def do_ban(self, user_name):
         """
@@ -1251,7 +1251,7 @@ class CommandHandler:
                     for i, user in enumerate(_users):
                         if user.nick != self._bot.nick and user.level > self._user.level:
                             if i <= self._conf.MAX_MATCH_BANS - 1:
-                                self._bot.send_ban_msg(user.id)
+                                self._bot.send_ban_msg(user.handle)
             else:
                 _user = self._bot.users.search_by_nick(user_name)
                 if _user is None:
@@ -1259,7 +1259,7 @@ class CommandHandler:
                 elif _user.level < self._user.level:
                     self._responder('Not allowed.')
                 else:
-                    self._bot.send_ban_msg(_user.id)
+                    self._bot.send_ban_msg(_user.handle)
 
     def do_bad_nick(self, bad_nick):
         """
