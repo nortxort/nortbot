@@ -16,6 +16,8 @@ This document describes the different config settings in config.ini. The differe
 
 **AntiCaptchaKey** - An [anti-captcha](https://anti-captcha.com/) API key.
 
+**WeatherApiKey** - A valid API key for [apixu](https://www.apixu.com/)
+
 **FallbackRtcVersion** - Fall back RTC version, in case parsing fails.
 
 **DebugFileName** - The name of the debug file.
