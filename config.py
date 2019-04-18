@@ -30,7 +30,7 @@ import sys
 from ConfigParser import SafeConfigParser
 
 # bot version
-__version__ = '1.0.0.6'
+__version__ = '1.0.0.7'
 
 # default config sections
 CONFIG_SECTIONS = ['strings', 'booleans', 'integers']
@@ -225,6 +225,7 @@ NICK = config.get('strings', 'Nick')
 ACCOUNT = config.get('strings', 'Account')
 PASSWORD = config.get('strings', 'Password')
 ANTI_CAPTCHA_KEY = config.get('strings', 'AntiCaptchaKey')
+WEATHER_KEY = config.get('strings', 'WeatherApiKey')
 FALLBACK_RTC_VERSION = config.get('strings', 'FallbackRtcVersion', default='2.0.22-4')
 CHAT_LOGGING = config.get('booleans', 'ChatLogging', rtype='bool')
 DEBUG_MODE = config.get('booleans', 'DebugMode', rtype='bool')

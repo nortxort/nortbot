@@ -30,6 +30,9 @@ from util import web
 
 log = logging.getLogger(__name__)
 
+# API key for the weather
+WEATHER_API_KEY = None
+
 
 def urbandictionary_search(search):
     """
@@ -68,12 +71,11 @@ def weather_search(city):
     :rtype: str | None
     """
     if str(city).strip():
-        api_key = ''
-        if not api_key:
+        if WEATHER_API_KEY is None:
             return 'Missing api key.'
         else:
             weather_api_url = 'https://api.apixu.com/v1/current.json?key=%s&q=%s' % \
-                              (api_key, city)
+                              (WEATHER_API_KEY, city)
 
             response = web.get(url=weather_api_url, as_json=True)
             if len(response.errors) > 0:

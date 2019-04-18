@@ -24,9 +24,9 @@ This document describes the different config settings in config.ini. The differe
 
 **Prefix** - The command prefix.
 
-**Key** - Bot operator key.
+**Key** - Bot operator key. **Change this!**
 
-**SuperKey** - Super bot operator key.
+**SuperKey** - Super bot operator key. **Change this!**
 
 **ApprovedFileName** - File name for approved accounts.
 

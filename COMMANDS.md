@@ -166,7 +166,7 @@ The same applies to banning. **A user can not ban a user with a lower user level
 
 `[p]rmba (ban account)` - Remove a ban account from the ban account file.
 
-`[p]list (list type)` - Show list information based on list type. Supported list types is `ap, bn, bs, ba, bl and mods`.
+`[p]list (list type)` - Count list items based on list type. Supported list types is `ap, bn, bs, ba, bl and mods`.
 
 `[p]uinfo (username)` - Shows information about a user.
 

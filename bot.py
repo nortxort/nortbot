@@ -29,7 +29,7 @@ import time
 import random
 
 from page import Privacy
-from apis import Youtube
+from apis import Youtube, other
 from util import Timer, ThreadPool, Color, file_handler, PlayList
 from handlers import JoinHandler, NickHandler, \
     MessageHandler, CommandHandler
@@ -40,6 +40,7 @@ import tinychat
 log = logging.getLogger(__name__)
 
 CONF = tinychat.CONF
+other.WEATHER_API_KEY = CONF.WEATHER_KEY
 
 
 class NortBot(tinychat.Client):
