@@ -218,8 +218,8 @@ class ProcessEvent:
             user_ban = self._client.users.add_banned_user(self._event_data)
 
             self._client.run_method(self._method, user_ban)
-        # else:
-        #     self._client.on_error(self._method, **self._event_data)
+        else:
+            self._client.on_error(self._event, self._event_data.get('reason'))
 
     def _process_unban(self):
         """
@@ -229,8 +229,8 @@ class ProcessEvent:
             unbanned = self._client.users.delete_banned_user(self._event_data)
 
             self._client.run_method(self._method, unbanned)
-        # else:
-        #     self._client.on_error(self._method, **self._event_data)
+        else:
+            self._client.on_error(self._event, self._event_data.get('reason'))
 
     def _process_stream_moder_allow(self):
         """
@@ -240,8 +240,8 @@ class ProcessEvent:
             allowed = self._client.users.search(self._event_data.get('handle'))
 
             self._client.run_method(self._method, allowed)
-        # else:
-        #     self._client.on_error(self._method, **self._event_data)
+        else:
+            self._client.on_error(self._event, self._event_data.get('reason'))
 
     def _process_stream_moder_close(self):
         """
@@ -251,8 +251,8 @@ class ProcessEvent:
             closed = self._client.users.search(self._event_data.get('handle'))
 
             self._client.run_method(self._method, closed)
-        # else:
-        #     self._client.on_error(self._method, **self._event_data)
+        else:
+            self._client.on_error(self._event, self._event_data.get('reason'))
 
     def _process_captcha(self):
         """

@@ -1200,8 +1200,13 @@ class CommandHandler:
             self._bot.nick = string_util.create_random_string(5, 25)
             self._bot.set_nick()
         else:
+            pat = '[a-zA-Z0-9_]'
             self._bot.nick = new_nick
-            self._bot.set_nick()
+
+            if not string_util.is_valid_string(self._bot.nick, pattern=pat):
+                self._responder('Nick name may only contain %s' % pat)
+            else:
+                self._bot.set_nick()
 
     def do_kick(self, user_name):
         """
@@ -1623,17 +1628,17 @@ class CommandHandler:
         :type user_name: str
         """
         if len(user_name.strip()) == 0:
-            self._responder('Missing user name.')
-        elif user_name == '/':  # shortcut to the last banned user.
             last_banned_user = self._bot.users.last_banned
             if last_banned_user is not None:
                 self._bot.send_unban_msg(last_banned_user.ban_id)
+                self._responder('Unbanned: %s' % last_banned_user.nick)
             else:
                 self._responder('Failed to find the last banned user.')
         else:
             banned_user = self._bot.users.search_banlist_by_nick(user_name)
             if banned_user is not None:
                 self._bot.send_unban_msg(banned_user.ban_id)
+                self._responder('Unbanned: %s' % banned_user.nick)
             else:
                 self._responder('No user named: %s in the banlist.' % user_name)
 

@@ -25,7 +25,24 @@ DEALINGS IN THE SOFTWARE.
 """
 
 import random
+import re
 from web import quote, unquote
+
+
+def is_valid_string(input_str, pattern='[a-zA-Z0-9]'):
+    """
+    Check a string to see if it is valid based on the pattern.
+
+    :param input_str: The string to check.
+    :type input_str: str
+    :param pattern: The pattern to check the string against.
+    :type pattern: str
+    :return: True if its a valid string.
+    :rtype: bool
+    """
+    if re.match("^" + pattern + "*$", input_str):
+        return True
+    return False
 
 
 def quote_str(input_str, safe=':,./&+?#=@'):

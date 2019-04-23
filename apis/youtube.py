@@ -167,7 +167,8 @@ class Youtube(object):
         :return: A list containing `playlist_title` and `playlist_id`.
         :rtype: list | None
         """
-        url = cls._playlist_search_url.format(API_KEY, web.quote(search_term))
+        url = cls._playlist_search_url.format(API_KEY,
+                                              web.quote(search_term.encode('UTF-8', 'ignore')))
 
         response = web.get(url=url, as_json=True, referer=REFERER)
 
@@ -305,7 +306,8 @@ class Youtube(object):
     @classmethod
     def _search(cls, search_term, results=0):
 
-        url = cls._search_url.format(API_KEY, web.quote(search_term))
+        url = cls._search_url.format(API_KEY,
+                                     web.quote(search_term.encode('UTF-8', 'ignore')))
 
         response = web.get(url=url, as_json=True, referer=REFERER)
 

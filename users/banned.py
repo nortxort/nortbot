@@ -32,7 +32,7 @@ class BannedUser(object):
     def __init__(self, **kwargs):
         self._ban_id = kwargs.get('id', 0)
         self._nick = kwargs.get('nick', '')
-        self._account = kwargs.get('username', '')
+        self._account = kwargs.get('username', None)
         self._banned_by = kwargs.get('moderator', '')
         self._reason = kwargs.get('reason', '')
 

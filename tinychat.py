@@ -45,6 +45,22 @@ log = logging.getLogger(__name__)
 CONF = config
 
 
+class ClientBaseError(Exception):
+    pass
+
+
+class InvalidRoomNameError(ClientBaseError):
+    pass
+
+
+class InvalidNickNameError(ClientBaseError):
+    pass
+
+
+class InvalidAccountNameError(ClientBaseError):
+    pass
+
+
 class Client:
     def __init__(self, room, nick=None, **kwargs):
         self.room = room
@@ -69,6 +85,9 @@ class Client:
         captcha.MAX_TRIES = kwargs.get('captcha_tries', 9)
         captcha.CAPTCHA_TIMEOUT = kwargs.get('captcha_timeout', 6)
 
+        if self.nick is None or self.nick == '':
+            self.nick = string_util.create_random_string(3, 20)
+
     @property
     def connected(self):
         """
@@ -91,16 +110,21 @@ class Client:
         :rtype: bool
         """
         if self.account is not None and self.password is not None:
-            account = Account(self.account, self.password, self.proxy)
 
-            if account.login():
-                self.console.write('Logged in as `%s`' % self.account,
-                                   Color.B_GREEN)
+            if not string_util.is_valid_string(self.account):
+                raise InvalidAccountNameError('account name may only contain letter(a-z) and numbers(0-9)')
             else:
-                self.console.write('Failed to login as `%s`' % self.account,
-                                   Color.B_RED)
 
-            return account.is_logged_in()
+                account = Account(self.account, self.password, self.proxy)
+
+                if account.login():
+                    self.console.write('Logged in as `%s`' % self.account,
+                                       Color.B_GREEN)
+                else:
+                    self.console.write('Failed to login as `%s`' % self.account,
+                                       Color.B_RED)
+
+                return account.is_logged_in()
 
         return False
 
@@ -108,36 +132,41 @@ class Client:
         """
         Connect to the websocket server.
         """
-        tc_header = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:65.0) Gecko/20100101 Firefox/65.0',
-            'Accept-Language': 'en-US,en;q=0.5',
-            'Accept-Encoding': 'gzip, deflate, br',
-            'Sec-WebSocket-Protocol': 'tc',
-            'Sec-WebSocket-Extensions': 'permessage-deflate'
-        }
-
-        if config.DEBUG_MODE:
-            websocket.enableTrace(True)
-
-        self._connect_args = TinychatApi.connect_token(self.room)
-        if self._connect_args is not None:
-
-            self._ws = websocket.create_connection(
-                self._connect_args['endpoint'],
-                headers=tc_header,
-                origin='https://tinychat.com'
-            )
-
-            if self._ws.connected:
-                log.info('websocket connection connected.')
-                self._is_connected = self._ws.connected
-                self.send_join_msg()
-                self._listener()
-            else:
-                log.info('connecting to %s failed' % self.room)
+        if not string_util.is_valid_string(self.room):
+            raise InvalidRoomNameError('room name may only contain letters(a-z) and numbers(0-9).')
 
         else:
-            log.info('missing connect args %s' % self._connect_args)
+
+            tc_header = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:65.0) Gecko/20100101 Firefox/65.0',
+                'Accept-Language': 'en-US,en;q=0.5',
+                'Accept-Encoding': 'gzip, deflate, br',
+                'Sec-WebSocket-Protocol': 'tc',
+                'Sec-WebSocket-Extensions': 'permessage-deflate'
+            }
+
+            if config.DEBUG_MODE:
+                websocket.enableTrace(True)
+
+            self._connect_args = TinychatApi.connect_token(self.room)
+            if self._connect_args is not None:
+
+                self._ws = websocket.create_connection(
+                    self._connect_args['endpoint'],
+                    headers=tc_header,
+                    origin='https://tinychat.com'
+                )
+
+                if self._ws.connected:
+                    log.info('websocket connection connected.')
+                    self._is_connected = self._ws.connected
+                    self.send_join_msg()
+                    self._listener()
+                else:
+                    log.info('connecting to %s failed' % self.room)
+
+            else:
+                log.info('missing connect args %s' % self._connect_args)
 
     def disconnect(self):
         """
@@ -205,16 +234,28 @@ class Client:
             func(*args, **kwargs)
 
     # Events.
+    def on_error(self, event, data):
+        """
+        Client event error handler.
+
+        :param event: The event of the error.
+        :type event: str
+        :param data: Error description.
+        :type data: str
+        """
+        self.console.write('[ERROR] `%s` %s' % (event, data),
+                           Color.B_RED)
+
     def on_ping(self):
+        """
+        Received on application ping.
+        """
         self.send_pong()
 
     def on_closed(self, data):
         """
         This gets sent when ever the connection gets closed
         by the server for what ever reason.
-
-        NOTE: Close the websocket connection
-        on any code.
 
         :param data: The close data.
         :type data: dict
@@ -224,7 +265,7 @@ class Client:
             self.console.write('There is no internet connection.',
                                Color.B_RED)
         elif code == 1:
-            self.console.write('Oops, chatroom have no free slots for users.',
+            self.console.write('Oops, chatroom has no free slots for users.',
                                Color.B_RED)
         elif code == 2:
             self.console.write('Chatroom has been closed by administrator.',
@@ -426,9 +467,14 @@ class Client:
         :type banlist: list
         """
         for banned in banlist:
-            self.console.write('Nick: %s, Account: %s, Banned By: %s' %
-                               (banned.nick, banned.account,
-                                banned.banned_by), Color.B_RED)
+            if banned.account is not None:
+                self.console.write('Nick: %s, Account: %s, Banned By: %s' %
+                                   (banned.nick, banned.account,
+                                    banned.banned_by), Color.B_RED)
+            else:
+                self.console.write('Nick: %s, Banned By: %s' %
+                                   (banned.nick, banned.banned_by),
+                                   Color.B_RED)
 
     def on_msg(self, user, msg):  # P
         """
@@ -439,8 +485,8 @@ class Client:
         :param msg: The text message as TextMessage object.
         :type msg: TextMessage
         """
-        self.console.write('%s: %s ' %
-                           (user.nick, msg.text), Color.B_GREEN)
+        self.console.write('%s: %s ' % (user.nick, msg.text),
+                           Color.B_GREEN)
 
     def on_pvtmsg(self, user, msg):  # P
         """
@@ -451,8 +497,8 @@ class Client:
         :param msg: The text message as TextMessage object.
         :type msg: TextMessage
         """
-        self.console.write('[PM] %s: %s' %
-                           (user.nick, msg.text), Color.WHITE)
+        self.console.write('[PM] %s: %s' % (user.nick, msg.text),
+                           Color.WHITE)
 
     def on_publish(self, user):  # P
         """
@@ -664,23 +710,26 @@ class Client:
 
         The client sends this after the websocket handshake has been established.
         """
-        if self.nick is None or self.nick == '':
-            self.nick = string_util.create_random_string(3, 20)
+        pat = '[a-zA-Z0-9_]'
+        if not string_util.is_valid_string(self.nick, pattern=pat):
+            raise InvalidNickNameError('nick name may only contain %s' % pat)
 
-        rtc_version = TinychatApi.rtc_version(self.room)
-        if rtc_version is None:
-            rtc_version = config.FALLBACK_RTC_VERSION
-            log.debug('failed to parse rtc version, using fallback: %s' % rtc_version)
+        else:
 
-        payload = {
-            'tc': 'join',
-            'req': self._req,
-            'useragent': 'tinychat-client-webrtc-undefined_win32-' + rtc_version,
-            'token': self._connect_args['token'],
-            'room': self.room,
-            'nick': self.nick
-        }
-        self.send(payload)
+            rtc_version = TinychatApi.rtc_version(self.room)
+            if rtc_version is None:
+                rtc_version = config.FALLBACK_RTC_VERSION
+                log.debug('failed to parse rtc version, using fallback: %s' % rtc_version)
+
+            payload = {
+                'tc': 'join',
+                'req': self._req,
+                'useragent': 'tinychat-client-webrtc-undefined_win32-' + rtc_version,
+                'token': self._connect_args['token'],
+                'room': self.room,
+                'nick': self.nick
+            }
+            self.send(payload)
 
     def send_pong(self):
         """

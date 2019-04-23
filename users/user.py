@@ -158,7 +158,12 @@ class User(object):
         :rtype: str
         """
         if len(self.messages) > 0:
-            return self.messages[-1].text
+            if self.messages[-1].type == 3:
+                return self.messages[-1].title
+            elif self.messages[-1].type == 2:
+                return 'Not showing PM.'
+            else:
+                return self.messages[-1].text
         return ''
 
     @property

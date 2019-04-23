@@ -25,6 +25,7 @@ DEALINGS IN THE SOFTWARE.
 """
 
 import logging
+import datetime
 
 
 log = logging.getLogger(__name__)
@@ -153,26 +154,31 @@ class Check(object):
         Check message for string ban.
         """
         if not self._user.is_mod:
-            log.debug('checking message %s' % self._msg.text)
 
-            if self._message():
+            if self._timed():
+                self._bot.send_ban_msg(self._user.handle)
 
-                if self._conf.USE_KICK_AS_AUTOBAN:
-                    self._bot.send_kick_msg(self._user.handle)
+            else:
 
-                    if self._conf.NOTIFY_ON_BAN:
-                        self._bot.responder('Auto-Kicked',
-                                            timeout=self._bot.rand_float())
-                else:
-                    self._bot.send_ban_msg(self._user.handle)
+                if self._message():
 
-                    if self._conf.NOTIFY_ON_BAN:
-                        self._bot.responder('Auto-Banned',
-                                            timeout=self._bot.rand_float())
+                    if self._conf.USE_KICK_AS_AUTOBAN:
+                        self._bot.send_kick_msg(self._user.handle)
+
+                        if self._conf.NOTIFY_ON_BAN:
+                            self._bot.responder('Auto-Kicked',
+                                                timeout=self._bot.rand_float())
+                    else:
+                        self._bot.send_ban_msg(self._user.handle)
+
+                        if self._conf.NOTIFY_ON_BAN:
+                            self._bot.responder('Auto-Banned',
+                                                timeout=self._bot.rand_float())
 
     def _message(self):
 
-        if self._msg.text is not None:
+        if self._msg is not None:
+            log.debug('checking message %s' % self._msg.text)
 
             chat_words = self._msg.text.split(' ')
 
@@ -189,5 +195,23 @@ class Check(object):
                     return True
 
             return False
+
+        return False
+
+    def _timed(self):
+        now = datetime.datetime.now()
+
+        ts = now - self._user.join_time
+
+        if ts.seconds == 0 and ts.microseconds < 999999:
+            return True
+
+        elif len(self._user.messages) > 1:
+            prev = self._user.messages[-2]
+            last = self._user.messages[-1]
+
+            msg_time = last.timestamp - prev.timestamp
+            if msg_time.seconds == 0 and msg_time.microseconds < 999999:
+                return True
 
         return False
