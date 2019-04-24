@@ -29,7 +29,7 @@ import re
 from web import quote, unquote
 
 
-def is_valid_string(input_str, pattern='[a-zA-Z0-9]'):
+def is_valid_string(input_str, pattern='^[a-zA-Z0-9]*$'):
     """
     Check a string to see if it is valid based on the pattern.
 
@@ -40,7 +40,7 @@ def is_valid_string(input_str, pattern='[a-zA-Z0-9]'):
     :return: True if its a valid string.
     :rtype: bool
     """
-    if re.match("^" + pattern + "*$", input_str):
+    if re.match(pattern, input_str):
         return True
     return False
 

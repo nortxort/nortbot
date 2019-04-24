@@ -1045,8 +1045,7 @@ class CommandHandler:
                 self._bot.is_search_list_yt_playlist = False
                 _ = []
                 for i, t in enumerate(self._bot.search_list):
-                    info = '(%s) %s %s' % (i, t['video_title'],
-                                           self._bot.format_time(t['video_time']))
+                    info = '(%s) %s %s' % (i, t.title, self._bot.format_time(t.time))
                     _.append(info)
                 self._responder('\n'.join(_))
             else:
@@ -1200,11 +1199,10 @@ class CommandHandler:
             self._bot.nick = string_util.create_random_string(5, 25)
             self._bot.set_nick()
         else:
-            pat = '[a-zA-Z0-9_]'
             self._bot.nick = new_nick
-
+            pat = '^[a-zA-Z0-9_]*$'
             if not string_util.is_valid_string(self._bot.nick, pattern=pat):
-                self._responder('Nick name may only contain %s' % pat)
+                self._responder('Nick name may only contain a-zA-z0-9_')
             else:
                 self._bot.set_nick()
 

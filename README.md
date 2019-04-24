@@ -63,4 +63,6 @@ See [LICENSE](https://github.com/nortxort/nortbot/blob/master/LICENSE) for more 
 
 *Thanks to the following people, who in some way or another, has contributed to this project.*
 
+[Technetium1](https://github.com/Technetium1)
+
 

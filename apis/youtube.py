@@ -257,7 +257,7 @@ class Youtube(object):
 
     @classmethod
     def _is_youtube_id(cls, yid):
-        if len(yid) == 11:
+        if string_util.is_valid_string(yid, pattern='^[a-zA-Z0-9_-]{11}$'):
             return True
         return False
 

@@ -136,7 +136,6 @@ class Client:
             raise InvalidRoomNameError('room name may only contain letters(a-z) and numbers(0-9).')
 
         else:
-
             tc_header = {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:65.0) Gecko/20100101 Firefox/65.0',
                 'Accept-Language': 'en-US,en;q=0.5',
@@ -710,9 +709,9 @@ class Client:
 
         The client sends this after the websocket handshake has been established.
         """
-        pat = '[a-zA-Z0-9_]'
+        pat = '^[a-zA-Z0-9_]*$'
         if not string_util.is_valid_string(self.nick, pattern=pat):
-            raise InvalidNickNameError('nick name may only contain %s' % pat)
+            raise InvalidNickNameError('nick name may only contain a-zA-Z0-9_')
 
         else:
 
