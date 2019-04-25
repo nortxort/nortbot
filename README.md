@@ -2,7 +2,7 @@
 
 A bot for tinychat chat rooms.
 
-This started out with some improvements to a few files for the bot, in the room i go to. This bassicly led to a complete rewrite of almost everything.
+This started out with some improvements to a few files for the bot, in the room i go to. This basically led to a complete rewrite of almost everything.
 
 For windows user that want a bot without having to deal with the python aspect, i have provided compiled windows executable in the [release](https://github.com/nortxort/nortbot/releases) section.
 
@@ -64,5 +64,3 @@ See [LICENSE](https://github.com/nortxort/nortbot/blob/master/LICENSE) for more 
 *Thanks to the following people, who in some way or another, has contributed to this project.*
 
 [Technetium1](https://github.com/Technetium1)
-
-
