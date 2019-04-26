@@ -1,14 +1,14 @@
-## nortbot
+## Nortbot
 
-A bot for tinychat chat rooms.
+A bot for Tinychat chat rooms.
 
-This started out with some improvements to a few files for the bot, in the room i go to. This basically led to a complete rewrite of almost everything.
-
-For windows user that want a bot without having to deal with the python aspect, i have provided compiled windows executable in the [release](https://github.com/nortxort/nortbot/releases) section.
+This started out with some improvements to a few files for the bot in the room I go to. This basically led to a complete rewrite of almost everything.
 
 
 ## Setup
-It is somewhat based on pinylib-rtc/tinybot-rtc so python 2.7.15+ is recommended. It has been tested on windows 7.
+For a Windows user that wants a bot without having to deal with the Python aspect, I have provided a compiled windows executable in the [Releases](https://github.com/nortxort/nortbot/releases) section.
+
+It is somewhat based on pinylib-rtc/tinybot-rtc so python 2.7.16+ is recommended. It has been tested on Windows 7, Windows 10, and Debian 9.
 
 
 ### Requirements
@@ -16,35 +16,34 @@ It is somewhat based on pinylib-rtc/tinybot-rtc so python 2.7.15+ is recommended
 See [requirements.txt](https://github.com/nortxort/nortbot/blob/master/requirements.txt) for information.
 
 
-## Usage.
+## Usage
 
-Change config.ini settings to fit your needs. Then run nortbot.py. 
-
-For a explanation of the different config settings, read through [config settings](https://github.com/nortxort/nortbot/blob/master/CONFIG.md).
-
-Commands explanation can be found [here](https://github.com/nortxort/nortbot/blob/master/COMMANDS.md).
+Change config.ini settings to fit your needs. ***Don’t forget to change the default key!*** Then run nortbot.py. 
+For an explanation of the different config settings, read through [config settings](https://github.com/nortxort/nortbot/blob/master/CONFIG.md).
+Command explanations can be found [here](https://github.com/nortxort/nortbot/blob/master/COMMANDS.md).
 
 
-## Compiling.
+## Compiling
 
-In order to compile you will need python 2.7.15+ 32bit version, also needed is [Microsoft Visual C++ 2008 Redistributable Package](http://www.microsoft.com/downloads/en/details.aspx?FamilyID=9b2da534-3e03-4391-8a4d-074b9f2bc1bf&displaylang=en) i believe. 
+In order to compile you will need Python 2.7.16+ 32bit, I believe [Microsoft Visual C++ 2008 Redistributable Package](http://www.microsoft.com/downloads/en/details.aspx?FamilyID=9b2da534-3e03-4391-8a4d-074b9f2bc1bf&displaylang=en) is also needed.
 
-**The compile info is based on my own system, and is what i was using when compiling successfully.*
+**The compilation info is based on my own system, and is what I was using when compiling successfully.*
+
 
 ### Using Pyinstaller
 
-You will need [pyinstaller](http://www.pyinstaller.org/), it can be installed with the follwing command: `pip install pyinstaller` 
+You will need [pyinstaller](http://www.pyinstaller.org/), it can be installed with the following command: `pip install pyinstaller` 
 
-Next, change directory to the directory containg the source codes: `cd path/to/source/code/files` 
+Next, change directory to the directory containing the source code: `cd path/to/source/code/files` 
 
 from there run: `pyinstaller --onefile nortbot.py`.
 
-2 new directorys will be created, build and dist. The **dist** directory will contain **nortbot.exe**. Copy **cacert.pem** and **config.ini** to the **dist** directory.
+2 new directories will be created, build and dist. The **dist** directory will contain **nortbot.exe**. Copy **cacert.pem** and **config.ini** to the **dist** directory.
 
-You should now be able to run nortbot.exe
+You should now be able to run **nortbot.exe**
 
 
-## Submitting an issue.
+## Submitting an issue
 
 Please read through the [issues](https://github.com/nortxort/nortbot/issues) before submitting a new issue. If you want to submit a new issue, then use the [ISSUE TEMPLATE](https://github.com/nortxort/nortbot/blob/master/ISSUE_TEMPLATE.md).
 
@@ -53,14 +52,15 @@ Please read through the [issues](https://github.com/nortxort/nortbot/issues) bef
 
 * [nortxort](https://github.com/nortxort)
 
+
 ## License
 
 The MIT License (MIT)
-
 See [LICENSE](https://github.com/nortxort/nortbot/blob/master/LICENSE) for more details.
+
 
 ## Acknowledgments
 
-*Thanks to the following people, who in some way or another, has contributed to this project.*
+*Thanks to the following people, who in some way or another, have contributed to this project:*
 
 [Technetium1](https://github.com/Technetium1)
