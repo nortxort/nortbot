@@ -34,7 +34,7 @@ When a user attempts to use a command, the bot will check if the user has the co
 
 This means, that a user with **BOT\_OP** can use **BOT_OP** and **DEFAULT** commands. A user with **SUPER** can use **SUPER**, **MODERATOR**, **APPROVED**, **BOT\_OP** and **DEFAULT** commands.
 
-The same applies to banning. **A user can not ban a user with a lower user level!**
+The same applies to banning. **A user can not ban a more privileged user!**
 
 
 ## OWNER(1) Commands.
