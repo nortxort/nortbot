@@ -4,9 +4,9 @@
 This document describes the different commands.
 Commands have been grouped together depending on the user level required to use them.
 
-The default prefix `!` for commands can be changed within the config.ini file. The prefix will be referred to as `[p]` in this document.
+The default prefix for commands is `!`. It can be changed within the config.ini file. The prefix will be referred to as `[p]` in this document.
 
-Commands will only be enabled if the bot is using a moderator account. Commands work both by private and public messages.
+Commands will only be enabled if the bot is using a moderator account. Commands work by both private and public messages.
 
 *Commands marked with  * are private message commands only.*
 
