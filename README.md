@@ -43,7 +43,7 @@ from there run: `pyinstaller --onefile nortbot.py`.
 You should now be able to run **nortbot.exe**
 
 
-## Submitting an issue.
+## Submitting an issue
 
 Please read through the [issues](https://github.com/nortxort/nortbot/issues) before submitting a new issue. If you want to submit a new issue, then use the [ISSUE TEMPLATE](https://github.com/nortxort/nortbot/blob/master/ISSUE_TEMPLATE.md).
 
