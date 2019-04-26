@@ -30,7 +30,7 @@ import sys
 from ConfigParser import SafeConfigParser
 
 # bot version
-__version__ = '1.0.1.8'
+__version__ = '1.0.1.9'
 
 # default config sections
 CONFIG_SECTIONS = ['strings', 'booleans', 'integers']
@@ -250,6 +250,7 @@ ALLOW_GUESTS = config.get('booleans', 'AllowGuests', rtype='bool')
 ALLOW_LURKERS = config.get('booleans', 'AllowLurkers', rtype='bool')
 ALLOW_GUESTS_NICKS = config.get('booleans', 'AllowGuestsNicks', rtype='bool')
 USE_KICK_AS_AUTOBAN = config.get('booleans', 'KickAsAutoban', rtype='bool')
+TRY_TIME_BASED_CHECKS = config.get('booleans', 'TryTimeBasedCheck', rtype='bool')
 NOTIFY_ON_BAN = config.get('booleans', 'NotifyOnBan', rtype='bool')
 APPROVED_FILE_NAME = config.get('strings', 'ApprovedFileName', default='approved_accounts.txt')
 NICK_BANS_FILE_NAME = config.get('strings', 'NickBansFileName', default='nick_bans.txt')

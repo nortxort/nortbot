@@ -199,11 +199,15 @@ class Check(object):
         return False
 
     def _timed(self):
+
+        if not self._conf.TRY_TIME_BASED_CHECKS:
+            return False
+
         now = datetime.datetime.now()
 
         ts = now - self._user.join_time
 
-        if ts.seconds == 0 and ts.microseconds < 999999:
+        if ts.seconds == 0 and ts.microseconds < 400000:
             return True
 
         elif len(self._user.messages) > 1:
@@ -211,7 +215,7 @@ class Check(object):
             last = self._user.messages[-1]
 
             msg_time = last.timestamp - prev.timestamp
-            if msg_time.seconds == 0 and msg_time.microseconds < 999999:
+            if msg_time.seconds == 0 and msg_time.microseconds < 400000:
                 return True
 
         return False

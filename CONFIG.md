@@ -67,6 +67,8 @@ This document describes the different config settings in config.ini. The differe
 
 **NotifyOnBan** - Send a room message when a user gets banned/kicked.
 
+**TryTimeBasedCheck** - Try time based checks to prevent spam.
+
 
 `[integers]`
 
