@@ -53,7 +53,7 @@ The same applies to banning. **A user can not ban a user with a higher user leve
 
 `[p]reboot` - Reboots the bot.
 
-*These commands are **ONLY** available if the bot is using the room owner account. *
+*These commands are **ONLY** available if the bot is using the room owner account.*
 
 `[p]mod (account)` - Make a user a room moderator.
 
