@@ -145,7 +145,7 @@ class Config:
         if self._has_option(section, option):
 
             if rtype == 'str':
-                res = self._config.get(section, option)
+                res = self._config.get(section, option, raw=True)
                 if res == '':
                     return default
                 return res
