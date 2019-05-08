@@ -23,7 +23,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 """
-
+import codecs
 import os
 import logging
 
@@ -45,7 +45,7 @@ def reader(file_path, file_name):
     if os.path.exists(file_path):
         if os.path.isfile(file_path + file_name):
             try:
-                with open(file_path + file_name) as f:
+                with codecs.open(file_path + file_name, encoding="utf-8") as f:
                     for line in f:
                         file_content.append(line.rstrip('\n'))
             except IOError as ioe:
@@ -70,7 +70,7 @@ def writer(file_path, file_name, write_this):
     # maybe return True if we could write and False if not
     if not os.path.exists(file_path):
         os.makedirs(file_path)
-    with open(file_path + file_name, mode='a') as f:
+    with codecs.open(file_path + file_name, mode='a', encoding="utf-8") as f:
         f.write(write_this + '\n')
 
 

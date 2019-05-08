@@ -1,0 +1,6 @@
+*.log
+*.pyc
+*.swp
+*.bak
+rooms/*
+*.sh
