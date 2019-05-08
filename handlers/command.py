@@ -53,7 +53,7 @@ class CommandHandler:
         if self._msg.text.startswith(self._conf.PREFIX):
 
             parts = self._msg.text.split(' ')
-            cmd = parts[0].replace(self._conf.PREFIX, '').lower().strip()
+            cmd = parts[0].lstrip(self._conf.PREFIX).lower().strip()
             cmd_arg = ' '.join(parts[1:]).strip()
 
             self._handle_command(cmd, cmd_arg)
@@ -1185,8 +1185,7 @@ class CommandHandler:
         """
         Clears the chat box.
         """
-        self._responder('_\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n'
-                        '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n_')
+        self._responder('_{:\n^36}_'.format(''))
 
     def do_nick(self, new_nick):
         """
@@ -1219,7 +1218,7 @@ class CommandHandler:
             self._responder('Action not allowed.')
         else:
             if user_name.startswith('*'):
-                user_name = user_name.replace('*', '')
+                user_name = user_name.lstrip('*')
                 _users = self._bot.users.search_containing(user_name)
                 if len(_users) > 0:
                     for i, user in enumerate(_users):
@@ -1248,7 +1247,7 @@ class CommandHandler:
             self._responder('Action not allowed.')
         else:
             if user_name.startswith('*'):
-                user_name = user_name.replace('*', '')
+                user_name = user_name.lstrip('*')
                 _users = self._bot.users.search_containing(user_name)
                 if len(_users) > 0:
                     for i, user in enumerate(_users):
