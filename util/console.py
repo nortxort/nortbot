@@ -100,8 +100,7 @@ class ChatLogger(object):
 
     @classmethod
     def write_chat_log(cls, text):
-        util.file_handler.writer(cls.path, cls.file,
-                                 text.encode(encoding='UTF-8', errors='ignore'))
+        util.file_handler.writer(cls.path, cls.file, text)
 
 
 class Console(ChatLogger):
