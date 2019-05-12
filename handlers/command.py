@@ -1200,7 +1200,7 @@ class CommandHandler:
             self._bot.set_nick()
         else:
             self._bot.nick = new_nick
-            pat = '^[a-zA-Z0-9_]*$'
+            pat = '^[a-zA-Z0-9_]{1,32}$'
             if not string_util.is_valid_string(self._bot.nick, pattern=pat):
                 self._responder('Nick name may only contain a-zA-z0-9_')
             else:
@@ -1349,6 +1349,9 @@ class CommandHandler:
             self._responder('Account to short: %s' % len(account))
         elif account in self._conf.ACCOUNT_BANS:
             self._responder('%s is already in list.' % account)
+            # apparently facebook names can cause an issue here(CosmosisT)
+        elif not string_util.is_valid_string(account, '^[a-zA-Z0-9]{1,64}$'):
+            self._responder('Account name may only be a-zA-Z0-9 with a length of max 64 characters.')
         else:
             file_handler.writer(self._bot.config_path,
                                 self._conf.ACCOUNT_BANS_FILE_NAME,
@@ -1360,7 +1363,7 @@ class CommandHandler:
         """
         Removes an account from the account bans file.
 
-        :param bad_account: The badd account name to remove from account bans file.
+        :param bad_account: The bad account name to remove from account bans file.
         :type bad_account: str
         """
         if len(bad_account) == 0:

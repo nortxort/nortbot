@@ -173,7 +173,7 @@ def thread_task(target, *args):
     :param target: The function/method to call in a thread.
     :param args: Function/method arguments.
     """
-    log.debug('simple task, target=%s, args=%s' % (target, args))
+    log.debug('threaded task, target=%s, args=%s' % (target, args))
     t = threading.Thread(target=target, args=args)
     # t.daemon = True
     t.start()
