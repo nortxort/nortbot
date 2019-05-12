@@ -219,7 +219,7 @@ class ProcessEvent:
 
             self._client.run_method(self._method, user_ban)
         else:
-            self._client.on_error(self._event, self._event_data.get('reason'))
+            self._client.error(self._event, self._event_data.get('reason'))
 
     def _process_unban(self):
         """
@@ -230,7 +230,7 @@ class ProcessEvent:
 
             self._client.run_method(self._method, unbanned)
         else:
-            self._client.on_error(self._event, self._event_data.get('reason'))
+            self._client.error(self._event, self._event_data.get('reason'))
 
     def _process_stream_moder_allow(self):
         """
@@ -241,7 +241,7 @@ class ProcessEvent:
 
             self._client.run_method(self._method, allowed)
         else:
-            self._client.on_error(self._event, self._event_data.get('reason'))
+            self._client.error(self._event, self._event_data.get('reason'))
 
     def _process_stream_moder_close(self):
         """
@@ -252,7 +252,7 @@ class ProcessEvent:
 
             self._client.run_method(self._method, closed)
         else:
-            self._client.on_error(self._event, self._event_data.get('reason'))
+            self._client.error(self._event, self._event_data.get('reason'))
 
     def _process_captcha(self):
         """

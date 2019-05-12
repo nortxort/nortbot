@@ -185,9 +185,6 @@ class Check(object):
             for bad in self._conf.STRING_BANS:
 
                 if bad.startswith('*'):
-                    # TODO this should probably just check if '*' is in
-                    # the string and replace it with a regular expression
-                    # wildcard.
                     _ = bad.lstrip('*')
                     if _ in self._msg.text:
 

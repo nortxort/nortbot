@@ -82,8 +82,8 @@ class Client:
         self._is_connected = False
         self._req = 1
 
-        captcha.MAX_TRIES = kwargs.get('captcha_tries', 9)
-        captcha.CAPTCHA_TIMEOUT = kwargs.get('captcha_timeout', 6)
+        captcha.MAX_TRIES = kwargs.get('captcha_tries', 11)
+        captcha.CAPTCHA_TIMEOUT = kwargs.get('captcha_timeout', 5)
 
         if self.nick is None or self.nick == '':
             self.nick = string_util.create_random_string(3, 20)
@@ -137,33 +137,32 @@ class Client:
 
         else:
             tc_header = {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:65.0) Gecko/20100101 Firefox/65.0',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:66.0) Gecko/20100101 Firefox/66.0',
                 'Accept-Language': 'en-US,en;q=0.5',
                 'Accept-Encoding': 'gzip, deflate, br',
                 'Sec-WebSocket-Protocol': 'tc',
                 'Sec-WebSocket-Extensions': 'permessage-deflate'
             }
 
-            if config.DEBUG_MODE:
-                websocket.enableTrace(True)
+            websocket.enableTrace(config.DEBUG_MODE)
 
             self._connect_args = TinychatApi.connect_token(self.room)
             if self._connect_args is not None:
 
-                self._ws = websocket.create_connection(
+                self._ws = websocket.WebSocketApp(
                     self._connect_args['endpoint'],
-                    headers=tc_header,
-                    origin='https://tinychat.com'
+                    header=tc_header,
+                    on_open=self.on_open,
+                    on_message=self.on_message,
+                    on_error=self.on_error,
+                    on_pong=self.on_pong
                 )
 
-                if self._ws.connected:
-                    log.info('websocket connection connected.')
-                    self._is_connected = self._ws.connected
-                    self.send_join_msg()
-                    self._listener()
-                else:
-                    log.info('connecting to %s failed' % self.room)
-
+                self._ws.run_forever(
+                    origin='https://tinychat.com',
+                    ping_interval=20,
+                    ping_timeout=5
+                )
             else:
                 log.info('missing connect args %s' % self._connect_args)
 
@@ -172,10 +171,9 @@ class Client:
         Disconnect from the websocket server
         """
         log.info('disconnecting from server')
-        if self._ws.connected:
-            self._ws.close(1001, 'GoingAway')
+        if self._ws is not None:
+            self._ws.close()
 
-        self._is_connected = False
         self._req = 1
         self._ws = None
         self.users.clear()
@@ -186,65 +184,119 @@ class Client:
         Reconnect to the server.
         """
         log.info('reconnecting')
-        if self.connected:
+        if self.connected:  # this check might not be needed anymore
             self.disconnect()
 
+        # maybe add a timeout here
         self.connect()
 
-    def _listener(self):
-        """
-        Listen to packets from the websocket server.
-        """
-        while self.connected:
-
-            data = self._ws.next()
-
-            log.debug('DATA: %s' % data)
-
-            if data:
-                json_data = json.loads(data)
-
-                event = json_data['tc']
-
-                if event == 'ping':
-                    self.on_ping()
-                else:
-                    self.dispatch(event, json_data)
-
-    def _process_event(self, event, method, event_data):
-        pe = ProcessEvent(self, event, method, event_data)
-        pe.process()
-
+    # Event Dispatcher.
     def dispatch(self, event, event_data):
+        """
+        Dispatch an event to a handler.
+
+        :param event: The event to dispatch.
+        :type event: str
+        :param event_data: The event data.
+        :type event_data: dict
+        """
         log.debug('dispatching event: %s' % event)
         method = 'on_%s' % event
 
         if hasattr(self, method):
-            self._process_event(event, method, event_data)
+            ProcessEvent(self, event, method, event_data).process()
         else:
             e = 'no event handler for `%s`' % event
             log.info(e)
             if config.DEBUG_MODE:
                 self.console.write(e, Color.B_RED)
 
+    # Method Caller.
     def run_method(self, method, *args, **kwargs):
+        """
+        Call a method.
+
+        :param method: The name of the method to run.
+        :type method: str
+        """
         func = getattr(self, method, None)
         if func is not None:
             func(*args, **kwargs)
 
-    # Events.
-    def on_error(self, event, data):
+    # Error Handler.
+    def error(self, event, error):
         """
         Client event error handler.
 
         :param event: The event of the error.
         :type event: str
-        :param data: Error description.
-        :type data: str
+        :param error: Error description.
+        :type error: str
         """
-        self.console.write('[ERROR] `%s` %s' % (event, data),
+        self.console.write('[ERROR] `%s` %s' % (event, error),
                            Color.B_RED)
 
+    # Websocket Events.
+    def on_pong(self, data):
+        """
+        Called in a response to the PING we send.
+
+        NOTE: For some reason the data
+        param is always empty. Apparently
+        it should be frame.data, what ever
+        that is (websocket._app.py line 278)
+
+        :param data: I assume this should be PONG data.
+        :type data: str
+        """
+        _ = 'received pong data %s' % data
+        if config.DEBUG_MODE:
+            self.console.write(_, Color.B_GREEN)
+        log.info(_)
+
+    def on_error(self, error):
+        """
+        Called if a websocket error occurs.
+        """
+        if isinstance(error, websocket.WebSocketTimeoutException):
+            self.console.write('%s, reconnecting..' % error, Color.B_RED)
+            self.reconnect()
+        else:
+            self.error(type(error), error)
+
+    def on_close(self):
+        """
+        Called when/if the websocket connection gets closed.
+        """
+        self._is_connected = False
+        self.console.write('[CLOSED] the connection was closed.',
+                           Color.B_RED)
+
+    def on_open(self):
+        """
+        Called when the websocket handshake has been established.
+        """
+        log.info('websocket connection connected.')
+        self._is_connected = True
+        self._join()
+
+    def on_message(self, message):
+        """
+        Called when we receive a message from the websocket endpoint.
+
+        :param message: The websocket message.
+        :type message: str
+        """
+        if message:
+            json_data = json.loads(message)
+            event = json_data['tc']
+
+            if event == 'ping':
+                self.on_ping()
+            else:
+                self.dispatch(event, json_data)
+
+    # Application Events.
     def on_ping(self):
         """
         Received on application ping.
@@ -253,7 +305,7 @@ class Client:
 
     def on_closed(self, data):
         """
-        This gets sent when ever the connection gets closed
+        Received when ever the connection gets closed
         by the server for what ever reason.
 
         :param data: The close data.
@@ -703,7 +755,7 @@ class Client:
                             youtube.duration), Color.B_YELLOW)
 
     # Message Construction.
-    def send_join_msg(self):
+    def _join(self):
         """
         The initial connect message to the room.
 
