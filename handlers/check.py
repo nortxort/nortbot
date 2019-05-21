@@ -131,7 +131,8 @@ class Check(object):
         :rtype: bool
         """
         log.debug('checking nick for %s' % self._user)
-        if self._user.nick in self._conf.NICK_BANS:
+
+        if self._nick():
 
             if self._conf.USE_KICK_AS_AUTOBAN:
                 self._bot.send_kick_msg(self._user.handle)
@@ -146,6 +147,20 @@ class Check(object):
                     self._bot.responder('Auto-Banned: (nick not allowed)',
                                         timeout=self._bot.rand_float())
             return True
+
+        return False
+
+    def _nick(self):
+
+        for nick in self._conf.NICK_BANS:
+
+            if nick.startswith('*'):
+                _ = nick.lstrip('*')
+                if _ in self._user.nick:
+                    return True
+
+            elif nick == self._user.nick:
+                return True
 
         return False
 
@@ -185,7 +200,7 @@ class Check(object):
             for bad in self._conf.STRING_BANS:
 
                 if bad.startswith('*'):
-                    _ = bad.lstrip('*')
+                    _ = bad.replace('*', '')
                     if _ in self._msg.text:
 
                         return True

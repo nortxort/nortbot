@@ -1274,6 +1274,9 @@ class CommandHandler:
             self._responder('Missing username.')
         elif bad_nick in self._conf.NICK_BANS:
             self._responder('%s is already in list.' % bad_nick)
+        elif not string_util.is_valid_string(bad_nick,
+                                             pattern='^[a-zA-Z0-9_*]{1,32}$'):
+            self._responder('the nick provided is not valid.')
         else:
             file_handler.writer(self._bot.config_path,
                                 self._conf.NICK_BANS_FILE_NAME, bad_nick)

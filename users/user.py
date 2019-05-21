@@ -54,7 +54,7 @@ class User(object):
         self.messages = []
 
         self._handle = kwargs.get('handle')                 # readonly
-        self._account = kwargs.get('username')              # readonly
+        self._account = kwargs.get('username', '')          # readonly
         self._session_id = kwargs.get('session_id', '')     # readonly
         self._is_lurker = kwargs.get('lurker', False)       # readonly
         self._is_mod = kwargs.get('mod', False)             # readonly

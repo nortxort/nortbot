@@ -78,7 +78,7 @@ class JoinHandler(Check):
             self._bot.console.write('Moderator joined: %s:%s:%s' %
                                     (self._user.nick, self._user.handle,
                                      self._user.account), Color.B_RED)
-        elif self._user.account is not None:
+        elif self._user.account != '':
             self._bot.console.write('User joined: %s:%s:%s' %
                                     (self._user.nick, self._user.handle,
                                      self._user.account), Color.B_GREEN)
@@ -92,7 +92,7 @@ class JoinHandler(Check):
         if self._conf.GREET:
             if not self._user.nick.startswith('guest-'):
 
-                if self._user.account is not None:
+                if self._user.account != '':
                     # using responder with timeout
                     self._bot.responder('Welcome to the room %s:%s:%s' %
                                         (self._user.nick, self._user.account,
