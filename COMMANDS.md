@@ -154,11 +154,11 @@ The same applies to banning. **A user can not ban a more privileged user!**
 
 `[p]ban (username)` - Ban a user.
 
-`[p]bn (ban nick)` - Add a ban nick to the ban nicks file.
+`[p]bn (ban nick)` - Add a ban nick to the ban nicks file.*
 
 `[p]rmbn (ban nick)` - Remove a ban nick from the ban nicks file.
 
-`[p]bs (ban string)` - Add a ban string to the ban string file.
+`[p]bs (ban string)` - Add a ban string to the ban string file.**
 
 `[p]rmbs (ban string)` - Remove a ban string from file.
 
@@ -185,6 +185,10 @@ The same applies to banning. **A user can not ban a more privileged user!**
 `[p]fg (usernane)` - Forgive a banned user.
 
 `[p]unb (username)` - Unban a banned user.
+
+<sub>* Use asterisk at the beginning of a nickname as a wildcard, i.e. *ickname matches nicknanme</sub>
+
+<sub>** Use asterisk as a wildcard, i.e. "*example.com" would ban any message containing "example.com"</sub>
 
 
 ## DEFAULT(6) Commands.
