@@ -249,7 +249,7 @@ class Client:
         :param data: I assume this should be PONG data.
         :type data: str
         """
-        _ = 'received pong data %s' % data
+        _ = 'websocket pong data %s' % data
         if config.DEBUG_MODE:
             self.console.write(_, Color.B_GREEN)
         log.info(_)
@@ -628,25 +628,28 @@ class Client:
         self.console.write('%s:%s is waiting for broadcast approval.' %
                            (user.nick, user.handle), Color.B_YELLOW)
 
-    def on_stream_moder_allow(self, allowed):  # P
+    def on_stream_moder_allow(self, allowed, allowed_by):  # P
         """
         Received when a user has been allowed by the client,
         to broadcast in a green room.
 
-        TODO: Test this
-
         :param allowed: The user that was allowed to broadcast.
         :type allowed: Users.User
+        :param allowed_by: The user allowing the broadcast.
+        :type allowed_by: Users.User
         """
-        self.console.write('%s:%s was allowed to broadcast.' %
-                           (allowed.nick, allowed.handle), Color.B_YELLOW)
+        if allowed_by.handle == self.users.client.handle:
+            self.console.write('The bot allowed %s:%s to broadcast.' %
+                               (allowed.nick, allowed.handle), Color.B_GREEN)
+        else:
+            self.console.write('%s:%s allowed %s:%s to broadcast.' %
+                               (allowed_by.nick, allowed_by.handle, allowed.nick, allowed.handle),
+                               Color.B_YELLOW)
 
     def on_stream_moder_close(self, closed):  # P
         """
         Received when a user has their broadcast
         closed by the client.
-
-        TODO: Test this
 
         :param closed: The user that was closed.
         :type closed: Users.User

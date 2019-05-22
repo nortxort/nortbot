@@ -236,12 +236,10 @@ class ProcessEvent:
         """
         Process an stream_moder_allow event.
         """
-        if self._event_data.get('success'):
-            allowed = self._client.users.search(self._event_data.get('handle'))
+        allowed = self._client.users.search(self._event_data.get('handle'))
+        allowed_by = self._client.users.search(self._event_data.get('allowed_by'))
 
-            self._client.run_method(self._method, allowed)
-        else:
-            self._client.error(self._event, self._event_data.get('reason'))
+        self._client.run_method(self._method, *(allowed, allowed_by))
 
     def _process_stream_moder_close(self):
         """
