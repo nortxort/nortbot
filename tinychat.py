@@ -172,7 +172,7 @@ class Client:
         """
         log.info('disconnecting from server')
         if self._ws is not None:
-            self._ws.close()
+            self._ws.close(timeout=0)
 
         self._req = 1
         self._ws = None
