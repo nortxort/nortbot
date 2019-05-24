@@ -482,10 +482,8 @@ class Privacy:
     def _parse_moderators(self, response):
         pattern = 'var moderators = \''
         if pattern in response.content:
-            mod_str = str(response.content).split(pattern)[
-                1].split('\';')[0].replace('"', '\'')
-            mod_str_replaced = mod_str.replace(
-                '[', '').replace(']', '').replace('\'', '')
+            mod_str = str(response.content).split(pattern)[1].split('\';')[0].replace('"', '\'')
+            mod_str_replaced = mod_str.replace('[', '').replace(']', '').replace('\'', '')
             mods = mod_str_replaced.split(',')
             if len(mods) > 0:
                 for mod in mods:

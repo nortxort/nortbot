@@ -398,8 +398,7 @@ class Youtube(object):
                                     if not cls._is_allowed(allowed):
                                         return track
 
-                        video_time = string_util.convert_to_seconds(
-                            content_details['duration'])
+                        video_time = string_util.convert_to_seconds(content_details['duration'])
                         video_title = response.json['items'][0]['snippet']['title']
                         image_medium = response.json['items'][0]['snippet']['thumbnails']['medium']['url']
 

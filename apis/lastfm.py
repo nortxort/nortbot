@@ -168,8 +168,7 @@ def listening_now(max_tunes, by_id=True):
                         yt_tracks.append(yt)
             else:
                 if 'Track' in user:
-                    search_str = '%s-%s' % (user['Track']
-                                            ['Artist'], user['Track']['Name'])
+                    search_str = '%s-%s' % (user['Track']['Artist'], user['Track']['Name'])
                     if not by_id:
                         yt = Youtube.search(search_str)
                         log.debug('search by search string: %s result: %s' %
