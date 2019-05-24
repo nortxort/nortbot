@@ -34,6 +34,7 @@ class RoomState:
     the client, or if settings to the privacy page
     are made.
     """
+
     def __init__(self):
         self._avatar = ''
         self._biography = ''

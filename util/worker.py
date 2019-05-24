@@ -41,6 +41,7 @@ class Timer:
     """
     Timer class for time based calls.
     """
+
     def __init__(self):
         self._timer_thread = None
 
@@ -93,6 +94,7 @@ class Worker(threading.Thread):
     """
     A worker class.
     """
+
     def __init__(self, tasks):
         threading.Thread.__init__(self)
         self.tasks = tasks
@@ -108,7 +110,7 @@ class Worker(threading.Thread):
             try:
                 func(*args, **kwargs)
             except Exception as e:
-                print (e)
+                print(e)
             finally:
                 self.tasks.task_done()
 
@@ -121,6 +123,7 @@ class ThreadPool:
     to use from. Once a thread is done, it will be
     added back in to the pool.
     """
+
     def __init__(self, num_threads):
         """
         Initialize the thread pool class.

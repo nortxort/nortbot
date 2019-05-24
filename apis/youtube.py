@@ -45,6 +45,7 @@ class Track:
     """
     Class representing a youtube video.
     """
+
     def __init__(self, video_id='', video_time=0, video_title='',
                  image='', owner=None, video_type='youTube'):
         self.id = video_id
@@ -339,7 +340,8 @@ class Youtube(object):
 
     @classmethod
     def _is_blocked(cls, blocked):
-        log.debug('blocked in: %s, ALLOWED_COUNTRIES: %s' % (blocked, ALLOWED_COUNTRIES))
+        log.debug('blocked in: %s, ALLOWED_COUNTRIES: %s' %
+                  (blocked, ALLOWED_COUNTRIES))
         if len(ALLOWED_COUNTRIES) > 0:
 
             for country in ALLOWED_COUNTRIES:
@@ -351,7 +353,8 @@ class Youtube(object):
 
     @classmethod
     def _is_allowed(cls, allowed):
-        log.debug('allowed in: %s, ALLOWED_COUNTRIES: %s' % (allowed, ALLOWED_COUNTRIES))
+        log.debug('allowed in: %s, ALLOWED_COUNTRIES: %s' %
+                  (allowed, ALLOWED_COUNTRIES))
         if len(ALLOWED_COUNTRIES) > 0:
 
             for country in ALLOWED_COUNTRIES:

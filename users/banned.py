@@ -29,6 +29,7 @@ class BannedUser(object):
     """
     Class representing a banned user.
     """
+
     def __init__(self, **kwargs):
         self._ban_id = kwargs.get('id', 0)
         self._nick = kwargs.get('nick', '')

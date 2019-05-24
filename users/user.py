@@ -32,6 +32,7 @@ class User(object):
     """
     Class representing a tinychat room user.
     """
+
     def __init__(self, **kwargs):
         self.location = None
         self.nick = kwargs.get('nick', '')

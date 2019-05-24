@@ -120,14 +120,16 @@ def tag_search(search_str, by_id=True, max_tunes=40):
                         else:
                             if not by_id:
                                 yt = Youtube.search(search_str)
-                                log.debug('search by search string: %s result: %s' % (search_str, yt))
+                                log.debug(
+                                    'search by search string: %s result: %s' % (search_str, yt))
                                 if yt is not None:
                                     yt_tracks.append(yt)
 
                     else:
                         if not by_id:
                             yt = Youtube.search(search_str)
-                            log.debug('search by search string: %s result: %s' % (search_str, yt))
+                            log.debug(
+                                'search by search string: %s result: %s' % (search_str, yt))
                             if yt is not None:
                                 yt_tracks.append(yt)
 
@@ -169,7 +171,8 @@ def listening_now(max_tunes, by_id=True):
                     search_str = '%s-%s' % (user['Track']['Artist'], user['Track']['Name'])
                     if not by_id:
                         yt = Youtube.search(search_str)
-                        log.debug('search by search string: %s result: %s' % (search_str, yt))
+                        log.debug('search by search string: %s result: %s' %
+                                  (search_str, yt))
                         if isinstance(yt, Track):
                             yt_tracks.append(yt)
 

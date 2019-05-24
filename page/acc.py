@@ -35,6 +35,7 @@ class Account:
     """
     This class contains methods to do login/logout and check if logged in or not.
     """
+
     def __init__(self, account, password, proxy=None):
         """
         Create a instance of the Account class.
@@ -60,7 +61,8 @@ class Account:
         """
         token_url = 'https://tinychat.com/start?#signin'
         if response is None:
-            response = web.get(url=token_url, referer=token_url, proxy=self._proxy)
+            response = web.get(
+                url=token_url, referer=token_url, proxy=self._proxy)
 
         if len(response.errors) > 0:
             log.error(response.errors)

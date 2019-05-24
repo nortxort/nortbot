@@ -155,6 +155,7 @@ class Response:
     """
     Class representing a response.
     """
+
     def __init__(self):
         """
         Initialize the Response class.

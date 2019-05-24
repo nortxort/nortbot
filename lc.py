@@ -37,6 +37,7 @@ class Room:
     """
     Class representing a live count room.
     """
+
     def __init__(self, **data):
         self._data = data
 
@@ -78,6 +79,7 @@ class LiveCount:
     Tinychat uses this data to update
     user and broadcaster count on the directory.
     """
+
     def __init__(self, bot, watch=None):
         """
         Initialize the LiveCount class.

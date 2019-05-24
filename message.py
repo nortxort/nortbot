@@ -34,6 +34,7 @@ class TextMessage:
     A text message can be a public message(msg_type=1)
     or a private message(msg_type=2).
     """
+
     def __init__(self, event_data):
         """
         Initialize the class.
@@ -85,6 +86,7 @@ class YoutubeMessage:
     """
     Class representing a received youtube message.
     """
+
     def __init__(self, youtube_data):
         """
         Initialize the class.

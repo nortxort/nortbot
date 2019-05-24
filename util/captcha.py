@@ -71,6 +71,7 @@ class AntiCaptchaApiError(AntiCaptchaError):
     """
     Anti captcha APi error.
     """
+
     def __init__(self, **error):
         self.id = error.get('errorId')
         self.code = error.get('errorCode')
@@ -81,6 +82,7 @@ class CaptchaResponse:
     """
     Class representing a captcha response.
     """
+
     def __init__(self, tries, **data):
         self._tries = tries
         self._data = data
@@ -153,6 +155,7 @@ class AntiCaptcha:
     """
     Anti captcha class for https://api.anti-captcha.com
     """
+
     def __init__(self, page_url, api_key):
         """
         Initialize the anti captcha class.
@@ -275,7 +278,8 @@ class AntiCaptcha:
 
             tries = 1
             while True:
-                log.debug('waiting %s for result. try=%s' % (CAPTCHA_TIMEOUT, tries))
+                log.debug('waiting %s for result. try=%s' %
+                          (CAPTCHA_TIMEOUT, tries))
                 time.sleep(CAPTCHA_TIMEOUT)
 
                 solution = self._task_result()

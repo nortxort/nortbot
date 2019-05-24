@@ -32,6 +32,7 @@ class Users(object):
     """
     Class for doing various user related operations.
     """
+
     def __init__(self):
         """
         Initialize the Users class.

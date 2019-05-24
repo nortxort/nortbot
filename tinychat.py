@@ -112,7 +112,8 @@ class Client:
         if self.account is not None and self.password is not None:
 
             if not string_util.is_valid_string(self.account):
-                raise InvalidAccountNameError('account name may only contain letter(a-z) and numbers(0-9)')
+                raise InvalidAccountNameError(
+                    'account name may only contain letter(a-z) and numbers(0-9)')
             else:
 
                 account = Account(self.account, self.password, self.proxy)
@@ -133,7 +134,8 @@ class Client:
         Connect to the websocket server.
         """
         if not string_util.is_valid_string(self.room):
-            raise InvalidRoomNameError('room name may only contain letters(a-z) and numbers(0-9).')
+            raise InvalidRoomNameError(
+                'room name may only contain letters(a-z) and numbers(0-9).')
 
         else:
             tc_header = {
@@ -643,7 +645,8 @@ class Client:
                                (allowed.nick, allowed.handle), Color.B_GREEN)
         else:
             self.console.write('%s:%s allowed %s:%s to broadcast.' %
-                               (allowed_by.nick, allowed_by.handle, allowed.nick, allowed.handle),
+                               (allowed_by.nick, allowed_by.handle,
+                                allowed.nick, allowed.handle),
                                Color.B_YELLOW)
 
     def on_stream_moder_close(self, closed):  # P
@@ -773,7 +776,8 @@ class Client:
             rtc_version = TinychatApi.rtc_version(self.room)
             if rtc_version is None:
                 rtc_version = config.FALLBACK_RTC_VERSION
-                log.debug('failed to parse rtc version, using fallback: %s' % rtc_version)
+                log.debug(
+                    'failed to parse rtc version, using fallback: %s' % rtc_version)
 
             payload = {
                 'tc': 'join',
