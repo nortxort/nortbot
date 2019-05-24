@@ -173,8 +173,7 @@ class Config:
                 return res
 
             else:
-                raise UnsupportedReturnTypeError(
-                    'the return type `%s` is not supported.' % rtype)
+                raise UnsupportedReturnTypeError('the return type `%s` is not supported.' % rtype)
 
         return default
 
