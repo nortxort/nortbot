@@ -32,6 +32,7 @@ class PlayList:
 
     TODO: Implement playlist delay?
     """
+
     def __init__(self):
         self.track_list = []
         self.track_index = 0
@@ -42,7 +43,7 @@ class PlayList:
     def track(self):
         """
         Returns the current track in the track list.
-        
+
         :return: The current Track or None if no track is being timed.
         :rtype: Track | None
         """
@@ -52,7 +53,7 @@ class PlayList:
     def current_index(self):
         """
         Return the current track list index.
-        
+
         :return: The current index of the track list.
         :rtype: int
         """
@@ -62,7 +63,7 @@ class PlayList:
     def last_index(self):
         """
         Return the last index of the track list.
-        
+
         :return: The last index in the track list.
         :rtype: int
         """
@@ -75,7 +76,7 @@ class PlayList:
     def has_active_track(self):
         """
         Check if the track list has a active track based on time and pause state.
-        
+
         :return: True if active else False.
         :rtype: bool
         """
@@ -91,7 +92,7 @@ class PlayList:
     def elapsed(self):
         """
         Returns the current track elapsed time.
-        
+
         :return: The elapsed track time in seconds.
         :rtype: int | float
         """
@@ -108,7 +109,7 @@ class PlayList:
     def remaining(self):
         """
         Returns the current track remaining time.
-        
+
         :return: The remaining time in seconds.
         :rtype: int | float
         """
@@ -121,7 +122,7 @@ class PlayList:
     def next_track(self):
         """
         Returns the next track in the track list
-        
+
         :return: The next Track in the track list or None if the track list is empty.
         :rtype: Track | None
         """
@@ -138,7 +139,7 @@ class PlayList:
     def is_last_track(self):
         """
         Check if the track list is at the last index.
-        
+
         :return: True if last track list index, else False. None if the track list is empty.
         :rtype: bool | None
         """
@@ -152,7 +153,7 @@ class PlayList:
     def queue(self):
         """
         Return the queue of the track list.
-        
+
         :return: The track list length and the remaining tracks.
         :rtype: tuple
         """
@@ -164,7 +165,7 @@ class PlayList:
     def start(self, owner, track):
         """
         Start a track to be timed.
-        
+
         :param owner: The nick of the user who started the track.
         :type owner: str
         :param track: The Track object.
@@ -182,7 +183,7 @@ class PlayList:
     def play(self, offset):
         """
         Play or search a track.
-        
+
         :param offset: The time in seconds to start playing from.
         :type offset: int | float
         :return: The remaining track time in seconds.
@@ -196,7 +197,7 @@ class PlayList:
     def replay(self):  # TODO: check if this is working correct.
         """
         Replay(re-time) the current track.
-        
+
         :return: The current track.
         :rtype: Track
         """
@@ -208,7 +209,7 @@ class PlayList:
     def pause(self, offset=0):
         """
         Pause a track.
-        
+
         :param offset: The time in seconds to pause the track at.
         :type offset: int | float
         """
@@ -227,7 +228,7 @@ class PlayList:
     def add(self, owner, track):
         """
         Add a track to the track list.
-        
+
         :param owner: The nick name of the user adding the track.
         :type owner: str
         :param track: The Track object.
@@ -243,7 +244,7 @@ class PlayList:
     def add_list(self, owner, tracks):
         """
         Add a list of track data to the track list.
-        
+
         :param owner: The nick name of the user adding the tracks.
         :type owner: str
         :param tracks: A list of Track objects.
@@ -256,7 +257,7 @@ class PlayList:
     def clear(self):
         """
         Clear the track list for all items.
-        
+
         :return: True if cleared successfully, else False.
         :rtype: bool
         """
@@ -269,7 +270,7 @@ class PlayList:
     def get_tracks(self, amount=5, from_index=True):
         """
         Get a list of Track's from the track list.
-        
+
         :param amount: The amount of Track's to get.
         :type amount: int
         :param from_index: Get Track's from the current track list index.
@@ -293,7 +294,7 @@ class PlayList:
     def next_track_info(self, jump=0):
         """
         Get the next Track object in the track list.
-        
+
         :param jump: Instead of getting the next track, use this to jump in the track list.
         :type jump: int
         :return: The index of the Track and the Track.
@@ -308,7 +309,7 @@ class PlayList:
     def delete(self, indexes, by_range=False):
         """
         Delete track list items by index.
-        
+
         :param indexes: A list of indexes to delete.
         :type indexes: list
         :param by_range: Delete a range of indexes.

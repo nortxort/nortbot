@@ -35,6 +35,7 @@ class Check(object):
     """
     Class for checking against the different ban settings.
     """
+
     def __init__(self, bot, user, config, msg=None):
         self._bot = bot
         self._user = user

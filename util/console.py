@@ -35,7 +35,6 @@ try:
 
     init(autoreset=True)
 
-
     class Color(object):
         """
         Predefined colorama colors.
@@ -63,7 +62,6 @@ except ImportError:
     init = None
     Style = None
     Fore = None
-
 
     class Color(object):
         """
@@ -107,6 +105,7 @@ class Console(ChatLogger):
     """
     A class for reading and writing to console.
     """
+
     def __init__(self, room, log_path='', chat_logging=False,
                  clock_color='', use_colors=False, use24hour=True):
 

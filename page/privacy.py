@@ -395,7 +395,8 @@ class Privacy:
         :return: True if it is a valid account, else False.
         :rtype: bool
         """
-        url = 'https://tinychat.com/api/v1.0/user/profile?username={0}&'.format(account)
+        url = 'https://tinychat.com/api/v1.0/user/profile?username={0}&'.format(
+            account)
         response = web.get(url=url, as_json=True)
 
         if len(response.errors) > 0:
@@ -415,15 +416,18 @@ class Privacy:
         return False
 
     def _parse_guest_setting(self):
-        guest_settings = self._soup.find('input', {'name': 'allow_guest', 'checked': True})
+        guest_settings = self._soup.find(
+            'input', {'name': 'allow_guest', 'checked': True})
         if guest_settings is not None:
             self._form_data['allow_guest'] = 1
-            twitter = self._soup.find('input', {'name': 'require_twitter', 'checked': True})
+            twitter = self._soup.find(
+                'input', {'name': 'require_twitter', 'checked': True})
             if twitter is not None:
                 self._form_data['require_twitter'] = 1
             else:
                 self._form_data['require_twitter'] = 0
-            facebook = self._soup.find('input', {'name': 'require_facebook', 'checked': True})
+            facebook = self._soup.find(
+                'input', {'name': 'require_facebook', 'checked': True})
             if facebook is not None:
                 self._form_data['require_facebook'] = 1
             else:
@@ -434,21 +438,24 @@ class Privacy:
             self._form_data['require_facebook'] = 0
 
     def _parse_directory_setting(self):
-        dir_settings = self._soup.find('input', {'name': 'public_directory', 'checked': True})
+        dir_settings = self._soup.find(
+            'input', {'name': 'public_directory', 'checked': True})
         if dir_settings is not None:
             self._form_data['public_directory'] = 1
         else:
             self._form_data['public_directory'] = 0
 
     def _parse_push2talk_setting(self):
-        push2talk = self._soup.find('input', {'name': 'push2talk', 'checked': True})
+        push2talk = self._soup.find(
+            'input', {'name': 'push2talk', 'checked': True})
         if push2talk is not None:
             self._form_data['push2talk'] = 1
         else:
             self._form_data['push2talk'] = 0
 
     def _parse_greenroom_setting(self):
-        greenroom = self._soup.find('input', {'name': 'greenroom', 'checked': True})
+        greenroom = self._soup.find(
+            'input', {'name': 'greenroom', 'checked': True})
         if greenroom is not None:
             self._form_data['greenroom'] = 1
         else:
@@ -465,7 +472,8 @@ class Privacy:
         # TODO: make sure this works as expected
         if not self._form_data['greenroom']:
             # broadcast password
-            broadcast_pass = self._soup.find(attrs={'name': 'broadcastPassword'})
+            broadcast_pass = self._soup.find(
+                attrs={'name': 'broadcastPassword'})
             if broadcast_pass['value']:
                 self._broadcast_pass_enabled = 1
             else:
@@ -474,8 +482,10 @@ class Privacy:
     def _parse_moderators(self, response):
         pattern = 'var moderators = \''
         if pattern in response.content:
-            mod_str = str(response.content).split(pattern)[1].split('\';')[0].replace('"', '\'')
-            mod_str_replaced = mod_str.replace('[', '').replace(']', '').replace('\'', '')
+            mod_str = str(response.content).split(pattern)[
+                1].split('\';')[0].replace('"', '\'')
+            mod_str_replaced = mod_str.replace(
+                '[', '').replace(']', '').replace('\'', '')
             mods = mod_str_replaced.split(',')
             if len(mods) > 0:
                 for mod in mods:

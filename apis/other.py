@@ -125,7 +125,8 @@ def whois(ip):
                 org = response.json['org']
                 region = response.json['regionName']
                 zipcode = response.json['zip']
-                info = country + ', ' + city + ', ' + region + ', Zipcode: ' + zipcode + '  Isp: ' + isp + '/' + org
+                info = country + ', ' + city + ', ' + region + \
+                    ', Zipcode: ' + zipcode + '  Isp: ' + isp + '/' + org
                 return info
             except KeyError as ke:
                 log.error(ke)
@@ -215,7 +216,8 @@ def porn(keyword):
             xml_doc = xml.etree.ElementTree.fromstring(response.content)
 
             for movie in xml_doc:
-                url = 'https://www.eporner.com/embed/%s' % movie.find('sid').text
+                url = 'https://www.eporner.com/embed/%s' % movie.find(
+                    'sid').text
                 movies.append(url)
 
     return movies

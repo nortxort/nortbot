@@ -60,6 +60,7 @@ class Config:
     """
     Class representing the config file.
     """
+
     def __init__(self, file_path='', file_name='config.ini'):
         """
         Initialize the Config class.
@@ -130,9 +131,9 @@ class Config:
         if self._config is not None:
             for section_name in self._config.sections():
                 # print ('Options: %s' % self._config.options(section_name))
-                print ('\nSection: %s' % section_name)
+                print('\nSection: %s' % section_name)
                 for name, value in self._config.items(section_name):
-                    print ('    %s = %s' % (name, value))
+                    print('    %s = %s' % (name, value))
 
     def _has_option(self, section, option):
 
@@ -172,7 +173,8 @@ class Config:
                 return res
 
             else:
-                raise UnsupportedReturnTypeError('the return type `%s` is not supported.' % rtype)
+                raise UnsupportedReturnTypeError(
+                    'the return type `%s` is not supported.' % rtype)
 
         return default
 
@@ -214,7 +216,7 @@ else:
 if len(_errors) > 0:
 
     for error in _errors:
-        print (error)
+        print(error)
 
     raw_input('\nfix the error(s) and click enter to close the application.')
     sys.exit(1)
@@ -226,7 +228,8 @@ ACCOUNT = config.get('strings', 'Account')
 PASSWORD = config.get('strings', 'Password')
 ANTI_CAPTCHA_KEY = config.get('strings', 'AntiCaptchaKey')
 WEATHER_KEY = config.get('strings', 'WeatherApiKey')
-FALLBACK_RTC_VERSION = config.get('strings', 'FallbackRtcVersion', default='2.0.22-4')
+FALLBACK_RTC_VERSION = config.get(
+    'strings', 'FallbackRtcVersion', default='2.0.22-4')
 CHAT_LOGGING = config.get('booleans', 'ChatLogging', rtype='bool')
 DEBUG_MODE = config.get('booleans', 'DebugMode', rtype='bool')
 DEBUG_TO_FILE = config.get('booleans', 'DebugToFile', rtype='bool')
@@ -242,7 +245,8 @@ PREFIX = config.get('strings', 'Prefix', default='!')
 KEY = config.get('strings', 'Key', default='hsd87fs7')
 SUPER_KEY = config.get('strings', 'SuperKey', default='8ssfy7723avf')
 MAX_MATCH_BANS = config.get('integers', 'MaxMatchBans', default=2, rtype='int')
-MAX_NOTIFY_DELAY = config.get('integers', 'MaxNotifyDelay', default=2, rtype='int')
+MAX_NOTIFY_DELAY = config.get(
+    'integers', 'MaxNotifyDelay', default=2, rtype='int')
 PUBLIC_CMD = config.get('booleans', 'PublicCmd', rtype='bool')
 GREET = config.get('booleans', 'Greet', rtype='bool')
 AUTO_LOGIN = config.get('booleans', 'AutoLogin', rtype='bool')
@@ -250,12 +254,17 @@ ALLOW_GUESTS = config.get('booleans', 'AllowGuests', rtype='bool')
 ALLOW_LURKERS = config.get('booleans', 'AllowLurkers', rtype='bool')
 ALLOW_GUESTS_NICKS = config.get('booleans', 'AllowGuestsNicks', rtype='bool')
 USE_KICK_AS_AUTOBAN = config.get('booleans', 'KickAsAutoban', rtype='bool')
-TRY_TIME_BASED_CHECKS = config.get('booleans', 'TryTimeBasedCheck', rtype='bool')
+TRY_TIME_BASED_CHECKS = config.get(
+    'booleans', 'TryTimeBasedCheck', rtype='bool')
 NOTIFY_ON_BAN = config.get('booleans', 'NotifyOnBan', rtype='bool')
-APPROVED_FILE_NAME = config.get('strings', 'ApprovedFileName', default='approved_accounts.txt')
-NICK_BANS_FILE_NAME = config.get('strings', 'NickBansFileName', default='nick_bans.txt')
-ACCOUNT_BANS_FILE_NAME = config.get('strings', 'AccountBansFileName', default='account_bans.txt')
-STRING_BANS_FILE_NAME = config.get('strings', 'StringBansFileName', default='string_bans.txt')
+APPROVED_FILE_NAME = config.get(
+    'strings', 'ApprovedFileName', default='approved_accounts.txt')
+NICK_BANS_FILE_NAME = config.get(
+    'strings', 'NickBansFileName', default='nick_bans.txt')
+ACCOUNT_BANS_FILE_NAME = config.get(
+    'strings', 'AccountBansFileName', default='account_bans.txt')
+STRING_BANS_FILE_NAME = config.get(
+    'strings', 'StringBansFileName', default='string_bans.txt')
 APPROVED = []
 ACCOUNT_BANS = []
 NICK_BANS = []

@@ -416,7 +416,8 @@ class CommandHandler:
             self._responder('Command only supported in PM.')
         else:
             if len(new_key) == 0:
-                self._responder('The current secret key is: %s' % self._conf.KEY)
+                self._responder('The current secret key is: %s' %
+                                self._conf.KEY)
             elif len(new_key) < 6:
                 self._responder('The key is to short, it must be '
                                 'at least 6 characters long. It is %s long.' %
@@ -549,7 +550,8 @@ class CommandHandler:
                 # do not set user level for owner and moderators
                 if not user.is_owner or not user.is_mod:
                     user.level = UserLevel.DEFAULT
-                    self._responder('%s is not a bot controller anymore.' % user_name)
+                    self._responder(
+                        '%s is not a bot controller anymore.' % user_name)
             else:
                 self._responder('No user named: %s' % user_name)
 
@@ -648,7 +650,8 @@ class CommandHandler:
         Toggles if guest nicks are allowed or not.
         """
         self._conf.ALLOW_GUESTS_NICKS = not self._conf.ALLOW_GUESTS_NICKS
-        self._responder('Allow Guest Nicks: %s' % self._conf.ALLOW_GUESTS_NICKS)
+        self._responder('Allow Guest Nicks: %s' %
+                        self._conf.ALLOW_GUESTS_NICKS)
 
     def do_greet(self):
         """ Toggles if users should be greeted on entry. """
@@ -667,7 +670,8 @@ class CommandHandler:
         Toggles if kick should be used instead of ban for auto bans .
         """
         self._conf.USE_KICK_AS_AUTOBAN = not self._conf.USE_KICK_AS_AUTOBAN
-        self._responder('Use Kick As Auto Ban: %s' % self._conf.USE_KICK_AS_AUTOBAN)
+        self._responder('Use Kick As Auto Ban: %s' %
+                        self._conf.USE_KICK_AS_AUTOBAN)
 
     def do_notify_on_ban(self):
         """
@@ -723,10 +727,13 @@ class CommandHandler:
 
                         if not self._playlist.has_active_track:
                             track = self._playlist.next_track
-                            self._bot.send_yut_play(track.id, track.time, track.title)
-                            self._bot.timer.start(self._bot.timer_event, track.time)
+                            self._bot.send_yut_play(
+                                track.id, track.time, track.title)
+                            self._bot.timer.start(
+                                self._bot.timer_event, track.time)
                     else:
-                        self._responder('Failed to retrieve a result from last.fm.')
+                        self._responder(
+                            'Failed to retrieve a result from last.fm.')
                 else:
                     self._responder('Max 30 tracks.')
 
@@ -751,14 +758,18 @@ class CommandHandler:
                     _items = lastfm.listening_now(max_tracks)
                     if _items is not None:
                         self._playlist.add_list(self._user.nick, _items)
-                        self._responder('Added %s tracks from last.fm' % len(_items))
+                        self._responder(
+                            'Added %s tracks from last.fm' % len(_items))
 
                         if not self._playlist.has_active_track:
                             track = self._playlist.next_track
-                            self._bot.send_yut_play(track.id, track.time, track.title)
-                            self._bot.timer.start(self._bot.timer_event, track.time)
+                            self._bot.send_yut_play(
+                                track.id, track.time, track.title)
+                            self._bot.timer.start(
+                                self._bot.timer_event, track.time)
                     else:
-                        self._responder('Failed to retrieve a result from last.fm.')
+                        self._responder(
+                            'Failed to retrieve a result from last.fm.')
                 else:
                     self._responder('Max 50 tracks.')
 
@@ -804,7 +815,8 @@ class CommandHandler:
 
                 self._responder('\n'.join(_))
             else:
-                self._responder('Failed to find playlist matching search term: %s' % search_str)
+                self._responder(
+                    'Failed to find playlist matching search term: %s' % search_str)
 
     def do_play_youtube_playlist(self, int_choice):
         """
@@ -825,18 +837,23 @@ class CommandHandler:
                     tracks = Youtube.id_details(playlist_id, True)
                     if len(tracks) > 0:
                         self._playlist.add_list(self._user.nick, tracks)
-                        self._responder('Added %s tracks from youtube playlist.' % len(tracks))
+                        self._responder(
+                            'Added %s tracks from youtube playlist.' % len(tracks))
                         if not self._playlist.has_active_track:
                             track = self._playlist.next_track
-                            self._bot.send_yut_play(track.id, track.time, track.title)
-                            self._bot.timer.start(self._bot.timer_event, track.time)
+                            self._bot.send_yut_play(
+                                track.id, track.time, track.title)
+                            self._bot.timer.start(
+                                self._bot.timer_event, track.time)
                     else:
-                        self._responder('Failed to retrieve videos from youtube playlist.')
+                        self._responder(
+                            'Failed to retrieve videos from youtube playlist.')
                 else:
                     max_ = len(self._bot.search_list) - 1
                     self._responder('Please make a choice between 0-%s' % max_)
         else:
-            self._responder('The search list does not contain any youtube playlist id\'s.')
+            self._responder(
+                'The search list does not contain any youtube playlist id\'s.')
 
     def do_show_search_list(self):
         """
@@ -855,7 +872,8 @@ class CommandHandler:
             else:
 
                 for i, t in enumerate(self._bot.search_list):
-                    track_data = '(%s) %s %s' % (i, t['video_title'], t['video_time'])
+                    track_data = '(%s) %s %s' % (
+                        i, t['video_title'], t['video_time'])
                     _.append(track_data)
                 self._responder('Youtube Tracks\n'.join(_))
 
@@ -871,7 +889,8 @@ class CommandHandler:
         else:
             self._bot.timer.cancel()
             next_track = self._playlist.next_track
-            self._bot.send_yut_play(next_track.id, next_track.time, next_track.title)
+            self._bot.send_yut_play(
+                next_track.id, next_track.time, next_track.title)
             self._bot.timer.start(self._bot.timer_event, next_track.time)
 
     def do_delete_playlist_item(self, to_delete):
@@ -894,7 +913,8 @@ class CommandHandler:
             try:
                 if ':' in to_delete:
                     range_indexes = map(int, to_delete.split(':'))
-                    temp_indexes = range(range_indexes[0], range_indexes[1] + 1)
+                    temp_indexes = range(
+                        range_indexes[0], range_indexes[1] + 1)
                     if len(temp_indexes) > 1:
                         by_range = True
                 else:
@@ -942,7 +962,8 @@ class CommandHandler:
                 self._playlist.play(self._playlist.elapsed)
                 self._bot.send_yut_play(self._playlist.track.id, self._playlist.track.time,
                                         self._playlist.track.title, self._playlist.elapsed)  #
-                self._bot.timer.start(self._bot.timer_event, self._playlist.remaining)
+                self._bot.timer.start(
+                    self._bot.timer_event, self._playlist.remaining)
 
     def do_media_pause(self):
         """
@@ -953,7 +974,8 @@ class CommandHandler:
             if self._playlist.has_active_track:
                 self._bot.timer.cancel()
             self._playlist.pause()
-            self._bot.send_yut_pause(track.id, track.time, self._playlist.elapsed)
+            self._bot.send_yut_pause(
+                track.id, track.time, self._playlist.elapsed)
 
     def do_close_media(self):
         """
@@ -985,11 +1007,14 @@ class CommandHandler:
                             self._bot.timer.cancel()
                         if self._playlist.is_paused:
                             self._playlist.pause(offset=offset)  #
-                            self._bot.send_yut_pause(track.id, track.time, offset)
+                            self._bot.send_yut_pause(
+                                track.id, track.time, offset)
                         else:
                             self._playlist.play(offset)
-                            self._bot.send_yut_play(track.id, track.time, track.title, offset)
-                            self._bot.timer.start(self._bot.timer_event, self._playlist.remaining)
+                            self._bot.send_yut_play(
+                                track.id, track.time, track.title, offset)
+                            self._bot.timer.start(
+                                self._bot.timer_event, self._playlist.remaining)
 
     def do_clear_playlist(self):
         """
@@ -1045,11 +1070,13 @@ class CommandHandler:
                 self._bot.is_search_list_yt_playlist = False
                 _ = []
                 for i, t in enumerate(self._bot.search_list):
-                    info = '(%s) %s %s' % (i, t.title, self._bot.format_time(t.time))
+                    info = '(%s) %s %s' % (
+                        i, t.title, self._bot.format_time(t.time))
                     _.append(info)
                 self._responder('\n'.join(_))
             else:
-                self._responder('Could not find anything matching: %s' % search_str)
+                self._responder(
+                    'Could not find anything matching: %s' % search_str)
 
     def do_play_youtube_search(self, int_choice):
         """
@@ -1076,15 +1103,19 @@ class CommandHandler:
                         else:
                             track = self._playlist.start(self._user.nick,
                                                          self._bot.search_list[int_choice])
-                            self._bot.send_yut_play(track.id, track.time, track.title)
-                            self._bot.timer.start(self._bot.timer_event, track.time)
+                            self._bot.send_yut_play(
+                                track.id, track.time, track.title)
+                            self._bot.timer.start(
+                                self._bot.timer_event, track.time)
                     else:
                         max_ = len(self._bot.search_list) - 1
-                        self._responder('Please make a choice between 0-%s' % max_)
+                        self._responder(
+                            'Please make a choice between 0-%s' % max_)
             else:
                 self._responder('No youtube track id\'s in the search list.')
         else:
-            self._responder('The search list only contains youtube playlist id\'s.')
+            self._responder(
+                'The search list only contains youtube playlist id\'s.')
 
     def do_live_count(self, watch_room):  # TODO: TEST
         """
@@ -1353,7 +1384,8 @@ class CommandHandler:
             self._responder('%s is already in list.' % account)
             # apparently facebook names can cause an issue here(CosmosisT)
         elif not string_util.is_valid_string(account, '^[a-zA-Z0-9]{1,64}$'):
-            self._responder('Account name may only be a-zA-Z0-9 with a length of max 64 characters.')
+            self._responder(
+                'Account name may only be a-zA-Z0-9 with a length of max 64 characters.')
         else:
             file_handler.writer(self._bot.config_path,
                                 self._conf.ACCOUNT_BANS_FILE_NAME,
@@ -1437,7 +1469,8 @@ class CommandHandler:
             elif list_type.lower() == 'mods':
                 if self._bot.users.client.is_owner:
                     if len(self._bot.privacy.room_moderators) == 0:
-                        self._responder('There is currently no moderators for this room.')
+                        self._responder(
+                            'There is currently no moderators for this room.')
                     elif len(self._bot.privacy.room_moderators) is not 0:
                         mods = ', '.join(self._bot.privacy.room_moderators)
                         self._responder('Moderators: %s' % mods)
@@ -1511,9 +1544,11 @@ class CommandHandler:
                 if self._user.level >= user.level:
                     user.can_broadcast = not user.can_broadcast
                     if user.can_broadcast:
-                        self._responder('%s is allowed to broadcast.' % username)
+                        self._responder(
+                            '%s is allowed to broadcast.' % username)
                     else:
-                        self._responder('%s is not allowed to broadcast.' % username)
+                        self._responder(
+                            '%s is not allowed to broadcast.' % username)
             else:
                 self._responder('No user named: %s' % username)
 
@@ -1579,7 +1614,8 @@ class CommandHandler:
         if len(user_name) == 0:
             self._responder('Missing user name to search for.')
         else:
-            self._bot.bl_search_list = self._bot.users.search_banlist_containing(user_name)
+            self._bot.bl_search_list = self._bot.users.search_banlist_containing(
+                user_name)
             if len(self._bot.bl_search_list) == 0:
                 self._responder('No banlist matches.')
             else:
@@ -1614,7 +1650,8 @@ class CommandHandler:
                 else:
                     if len(self._bot.bl_search_list) > 1:
                         max_ = len(self._bot.bl_search_list)
-                        self._responder('Please make a choice between 0-%s' % max_)
+                        self._responder(
+                            'Please make a choice between 0-%s' % max_)
             else:
                 self._responder('The ban search is empty.')
 
@@ -1643,7 +1680,8 @@ class CommandHandler:
                 self._bot.send_unban_msg(banned_user.ban_id)
                 self._responder('Unbanned: %s' % banned_user.nick)
             else:
-                self._responder('No user named: %s in the banlist.' % user_name)
+                self._responder(
+                    'No user named: %s in the banlist.' % user_name)
 
     # DEFAULT Command Methods.
     def do_pmme(self):
@@ -1670,7 +1708,8 @@ class CommandHandler:
                     self._user.level = UserLevel.OWNER
                     self._responder('You are now a super mod.')
                 else:
-                    self._responder('The client is not using the owner account.')
+                    self._responder(
+                        'The client is not using the owner account.')
             elif key == self._conf.KEY:
                 if self._bot.users.client.is_mod:
                     self._user.level = UserLevel.SUPER
@@ -1730,7 +1769,8 @@ class CommandHandler:
         if self._playlist.has_active_track:
             track = self._playlist.track
             ago = self._bot.format_time(int(time.time() - track.rq_time))
-            self._responder('%s requested this track %s ago.' % (track.owner, ago))
+            self._responder('%s requested this track %s ago.' %
+                            (track.owner, ago))
         else:
             self._responder('No track playing.')
 
@@ -1744,7 +1784,8 @@ class CommandHandler:
         """
         Posts a link to github readme/wiki or other page about the bot commands.
         """
-        self._responder('Help: https://github.com/nortxort/nortbot/blob/master/COMMANDS.md')
+        self._responder(
+            'Help: https://github.com/nortxort/nortbot/blob/master/COMMANDS.md')
 
     def do_uptime(self):
         """
@@ -1773,12 +1814,15 @@ class CommandHandler:
             else:
                 if isinstance(youtube, list) and len(youtube) > 1:
                     self._playlist.add_list(self._user.nick, youtube)
-                    self._responder('Added %s tracks from youtube playlist.' % len(youtube))
+                    self._responder(
+                        'Added %s tracks from youtube playlist.' % len(youtube))
 
                     if not self._playlist.has_active_track:
                         track = self._playlist.next_track
-                        self._bot.send_yut_play(track.id, track.time, track.title)
-                        self._bot.timer.start(self._bot.timer_event, track.time)
+                        self._bot.send_yut_play(
+                            track.id, track.time, track.title)
+                        self._bot.timer.start(
+                            self._bot.timer_event, track.time)
                 else:
                     if self._playlist.has_active_track:
                         track = self._playlist.add(self._user.nick, youtube)
@@ -1788,8 +1832,10 @@ class CommandHandler:
                                          self._bot.format_time(track.time)))
                     else:
                         track = self._playlist.start(self._user.nick, youtube)
-                        self._bot.send_yut_play(track.id, track.time, track.title)
-                        self._bot.timer.start(self._bot.timer_event, track.time)
+                        self._bot.send_yut_play(
+                            track.id, track.time, track.title)
+                        self._bot.timer.start(
+                            self._bot.timer_event, track.time)
 
     # == Tinychat API Command Methods. ==
     def do_account_spy(self, account):
@@ -1804,7 +1850,8 @@ class CommandHandler:
         else:
             tc_usr = TinychatApi.user_info(account)
             if tc_usr is None:
-                self._responder('Could not find tinychat info for: %s' % account)
+                self._responder(
+                    'Could not find tinychat info for: %s' % account)
             else:
                 account_info = [
                     'Age: %s' % tc_usr['age'],
@@ -1827,7 +1874,8 @@ class CommandHandler:
         else:
             urban = other.urbandictionary_search(search_str)
             if urban is None:
-                self._responder('Could not find a definition for: %s' % search_str)
+                self._responder(
+                    'Could not find a definition for: %s' % search_str)
             else:
                 if len(urban) > 200:
                     chunks = string_util.chunk_string(urban, 200)
@@ -1848,7 +1896,8 @@ class CommandHandler:
         else:
             weather = other.weather_search(search_str)
             if weather is None:
-                self._responder('Could not find weather data for: %s' % search_str)
+                self._responder(
+                    'Could not find weather data for: %s' % search_str)
             else:
                 self._responder(weather)
 

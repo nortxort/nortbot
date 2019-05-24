@@ -34,6 +34,7 @@ class ProcessEvent:
     """
     Process an event before it's method gets called.
     """
+
     def __init__(self, client, event, method, event_data):
         """
         Initialize the event processing.
@@ -237,7 +238,8 @@ class ProcessEvent:
         Process an stream_moder_allow event.
         """
         allowed = self._client.users.search(self._event_data.get('handle'))
-        allowed_by = self._client.users.search(self._event_data.get('allowed_by'))
+        allowed_by = self._client.users.search(
+            self._event_data.get('allowed_by'))
 
         self._client.run_method(self._method, *(allowed, allowed_by))
 

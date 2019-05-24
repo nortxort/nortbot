@@ -87,7 +87,8 @@ class TinychatApi(object):
         :return: A dictionary containing info about the user account.
         :rtype: dict | None
         """
-        url = 'https://tinychat.com/api/v1.0/user/profile?username={0}&'.format(account)
+        url = 'https://tinychat.com/api/v1.0/user/profile?username={0}&'.format(
+            account)
         response = web.get(url, as_json=True)
 
         if len(response.errors) > 0:
