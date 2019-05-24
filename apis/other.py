@@ -216,8 +216,7 @@ def porn(keyword):
             xml_doc = xml.etree.ElementTree.fromstring(response.content)
 
             for movie in xml_doc:
-                url = 'https://www.eporner.com/embed/%s' % movie.find(
-                    'sid').text
+                url = 'https://www.eporner.com/embed/%s' % movie.find('sid').text
                 movies.append(url)
 
     return movies

@@ -156,8 +156,7 @@ class LiveCount:
                 self._watch_rooms.remove(room_name)
                 self._bot.responder('Removed %s from watch rooms.' % room_name)
             else:
-                self._bot.responder(
-                    '%s is not in the watch rooms.' % room_name)
+                self._bot.responder('%s is not in the watch rooms.' % room_name)
 
     def set_watch_interval(self, interval):
         """
