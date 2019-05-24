@@ -632,8 +632,8 @@ class Client:
 
     def on_stream_moder_allow(self, allowed, allowed_by):  # P
         """
-        Received when a user has been allowed by the client,
-        to broadcast in a green room.
+        Received when a user has been
+        allowed to broadcast in a green room.
 
         :param allowed: The user that was allowed to broadcast.
         :type allowed: Users.User
