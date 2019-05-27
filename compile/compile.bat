@@ -2,12 +2,13 @@
 TITLE NortBot Compiler
 python -V > NUL 2> NUL
 if errorlevel 1 echo PYTHON NOT IN PATH! && PAUSE && EXIT
+cd %~dp0
 python -m pip install -U pyinstaller --user
 python -m pip install -r %~dp0..\requirements.txt --user
-cd %~dp0
-pyinstaller -F --clean "..\nortbot.py"
+pyinstaller -F --clean "..\nortbot.py" -p "%~dp0.."
 ECHO Copying cacert.pem
 COPY ..\cacert.pem .\dist\cacert.pem
+ECHO Copying config.ini
 COPY ..\config.ini .\dist\config.ini
 ECHO Done! Files are located in %~dp0dist
 PAUSE
