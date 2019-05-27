@@ -125,7 +125,7 @@ def whois(ip):
                 org = response.json['org']
                 region = response.json['regionName']
                 zipcode = response.json['zip']
-                info = "%s, %s, %s, %s, %s" %
+                info = "%s, %s, %s, %s, %s" % \
                 (country, city, region, zipcode, isp)
                 return info
             except KeyError as ke:
