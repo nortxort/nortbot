@@ -87,7 +87,7 @@ def main():
 
 
 if __name__ == '__main__':
-    if bot.CONF.DEBUG_TO_FILE:
+    if bot.CONF.DEBUG_TO_FILE and bot.CONF.DEBUG_MODE:
 
         fmt = '%(asctime)s : %(levelname)s : %(filename)s : ' \
               '%(lineno)d : %(funcName)s() : %(name)s : %(message)s'
