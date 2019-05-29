@@ -47,7 +47,7 @@ You should now be able to run **nortbot.exe**
 
 ## Submitting an issue
 
-Please read through the [issues](https://github.com/nortxort/nortbot/issues) before submitting a new issue. If you want to submit a new issue, then use the [ISSUE TEMPLATE](https://github.com/nortxort/nortbot/blob/master/ISSUE_TEMPLATE.md). And i mean, really, use the issue template it's there for a reason.
+Please read through the [ISSUES](https://github.com/nortxort/nortbot/issues) before submitting a new one. If you want to submit a new issue, then use an [ISSUE TEMPLATE](https://github.com/nortxort/nortbot/issues/new/choose). **_Please_ use an issue template**, they're there for a reason!
 
 
 ## Author
