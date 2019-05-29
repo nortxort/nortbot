@@ -24,6 +24,7 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 """
 
+import re
 import logging
 import xml.etree.ElementTree
 from util import web
@@ -52,7 +53,8 @@ def urbandictionary_search(search):
             return None
         else:
             try:
-                definition = response.json['list'][0]['definition']
+                _definition = response.json['list'][0]['definition']
+                definition = re.sub(r"\[*\]*", "", _definition) 
                 return definition.encode('ascii', 'ignore')
             except (KeyError, IndexError):
                 return None
