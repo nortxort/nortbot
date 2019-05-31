@@ -3,6 +3,7 @@
 A bot for Tinychat chat rooms.
 
 This started out with some improvements to a few files for the bot in the room I go to. This basically led to a complete rewrite of almost everything.
+Join the discord for help https://discord.gg/zhAsp9
 
 
 ## Setup
