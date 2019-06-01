@@ -3,7 +3,6 @@
 A bot for Tinychat chat rooms.
 
 This started out with some improvements to a few files for the bot in the room I go to. This basically led to a complete rewrite of almost everything.
-Join the discord for help https://discord.gg/zhAsp9
 
 
 ## Setup
@@ -48,7 +47,7 @@ You should now be able to run **nortbot.exe**
 
 ## Submitting an issue
 
-Please read through the [ISSUES](https://github.com/nortxort/nortbot/issues) before submitting a new one. If you want to submit a new issue, then use an [ISSUE TEMPLATE](https://github.com/nortxort/nortbot/issues/new/choose). **_Please_ use an issue template**, they're there for a reason!
+Please read through the [ISSUES](https://github.com/nortxort/nortbot/issues) before submitting a new one. If you want to submit a new issue, then use an [ISSUE TEMPLATE](https://github.com/nortxort/nortbot/issues/new/choose). **_Please_ use an issue template**, they're there for a reason! If you need more help or have questions that are not already answered in the issues, you can [join this Discord server](https://discord.gg/zhAsp9).
 
 
 ## Author
