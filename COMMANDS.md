@@ -186,6 +186,13 @@ The same applies to banning. **A user can not ban a more privileged user!**
 
 `[p]unb (username)` - Unban a banned user.
 
+`[p]jcd` - Get directory information from [jumpin.chat](http://jumpin.chat/)
+
+`[p]jcr (room name)` - Get user and broadcaster count for a room on [jumpin.chat](http://jumpin.chat/)
+
+`[p]jcu (account)` - Search [jumpin.chat](http://jumpin.chat/) rooms for a user matching the account name.
+
+
 <sub>* Use asterisk at the beginning of a nickname as a wildcard, i.e. *ickname matches nicknanme</sub>
 
 <sub>** Use asterisk as a wildcard, i.e. "*example.com" would ban any message containing "example.com"</sub>

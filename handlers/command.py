@@ -29,7 +29,7 @@ import time
 
 from users import UserLevel
 from util import string_util, file_handler, thread_task
-from apis import Youtube, TinychatApi, lastfm, locals_, other
+from apis import Youtube, TinychatApi, JumpinChatApi, lastfm, locals_, other
 from lc import LiveCount
 
 
@@ -290,6 +290,15 @@ class CommandHandler:
 
             elif cmd == 'unb':
                 self.do_unban(cmd_arg)
+
+            elif cmd == 'jcd':
+                self._pool.add_task(self.do_jc_directory)  # new
+
+            elif cmd == 'jcr':
+                self._pool.add_task(self.do_jc_room_info, cmd_arg)  # new
+
+            elif cmd == 'jcu':
+                self._pool.add_task(self.do_jc_user_search, cmd_arg)  # new
 
         if (self._conf.PUBLIC_CMD and self._user.level <= UserLevel.DEFAULT) \
                 or self._user.level < UserLevel.DEFAULT:
@@ -1682,6 +1691,72 @@ class CommandHandler:
             else:
                 self._responder(
                     'No user named: %s in the banlist.' % user_name)
+
+    def do_jc_directory(self):
+        """
+        Gets a status of the rooms and users using jumpin.chat
+        """
+        self._responder('Gathering information..')
+
+        rooms = JumpinChatApi.directory()
+        users = []
+
+        if len(rooms) == 0:
+            self._responder('No rooms on the directory.')
+
+        else:
+            for r in rooms:
+                for u in r.users:
+                    if u.nick not in users:
+                        users.append(u.nick)
+
+            self._responder('%s unique users in %s room(s) on jumpin.chat' %
+                            (len(users), len(rooms)))
+
+    def do_jc_room_info(self, room_name):
+        """
+        Get the room information for a room on jumpin.chat
+
+        :param room_name: The room name to get the information for.
+        :type room_name: str
+        """
+        if len(room_name) == 0:
+            self._responder('Missing room name.')
+        else:
+            room = JumpinChatApi.room(room_name)
+            if room is None:
+                self._responder('%s is empty.' % room_name)
+            else:
+                broadcasters = []
+                for user in room.users:
+                    if user.is_broadcasting:
+                        broadcasters.append(user)
+
+                self._responder('%s, %s users, %s broadcasting' %
+                                (room_name, len(room.users), len(broadcasters)))
+
+    def do_jc_user_search(self, account):
+        """
+        Search jumpin.chat rooms for a user matching the account.
+
+        :param account: The account to search for.
+        :type account: str
+        """
+        if len(account) == 0:
+            self._responder('Missing account name.')
+        else:
+            self._responder('Searching rooms...')
+            rooms = JumpinChatApi.user_search(account)
+            if len(rooms) == 0:
+                self._responder('No user found with account `%s`.' % account)
+            else:
+                _ = []
+                for room in rooms:
+                    info = '%s was found in %s, users %s' % \
+                           (account, room.name, len(room.users))
+                    _.append(info)
+
+                self._responder(', '.join(_))
 
     # DEFAULT Command Methods.
     def do_pmme(self):

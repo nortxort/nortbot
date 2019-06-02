@@ -24,6 +24,7 @@ DEALINGS IN THE SOFTWARE.
 
 from tinychat import TinychatApi
 from youtube import Track, Youtube
+from jumpin import JumpinChatApi
 import lastfm
 import other
 import locals_
