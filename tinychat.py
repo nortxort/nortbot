@@ -112,18 +112,18 @@ class Client:
         if self.account is not None and self.password is not None:
 
             if not string_util.is_valid_string(self.account):
-                raise InvalidAccountNameError(
-                    'account name may only contain letter(a-z) and numbers(0-9)')
+                raise InvalidAccountNameError('account name may only contain letter(a-z) and numbers(0-9)')
             else:
 
                 account = Account(self.account, self.password, self.proxy)
+                if not account.is_logged_in():
 
-                if account.login():
-                    self.console.write('Logged in as `%s`' % self.account,
-                                       Color.B_GREEN)
-                else:
-                    self.console.write('Failed to login as `%s`' % self.account,
-                                       Color.B_RED)
+                    if account.login():
+                        self.console.write('Logged in as `%s`' % self.account,
+                                           Color.B_GREEN)
+                    else:
+                        self.console.write('Failed to login as `%s`' % self.account,
+                                           Color.B_RED)
 
                 return account.is_logged_in()
 
@@ -190,6 +190,7 @@ class Client:
             self.disconnect()
 
         # maybe add a timeout here
+        self.login()
         self.connect()
 
     # Event Dispatcher.
