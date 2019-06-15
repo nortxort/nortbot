@@ -34,6 +34,18 @@ from util import thread_task
 log = logging.getLogger(__name__)
 
 
+def logger_setup():
+    if bot.CONF.DEBUG_TO_FILE:
+
+        fmt = '%(asctime)s : %(levelname)s : %(filename)s : ' \
+              '%(lineno)d : %(funcName)s() : %(name)s : %(message)s'
+
+        logging.basicConfig(filename=bot.CONF.DEBUG_FILE_NAME,
+                            level=bot.CONF.DEBUG_LEVEL, format=fmt)
+    else:
+        log.addHandler(logging.NullHandler)
+
+
 def main():
     if bot.CONF.ROOM is None:
         bot.CONF.ROOM = raw_input('Enter room name: ').strip()
@@ -87,15 +99,9 @@ def main():
 
 
 if __name__ == '__main__':
-    if bot.CONF.DEBUG_TO_FILE and bot.CONF.DEBUG_MODE:
 
-        fmt = '%(asctime)s : %(levelname)s : %(filename)s : ' \
-              '%(lineno)d : %(funcName)s() : %(name)s : %(message)s'
+    logger_setup()
 
-        logging.basicConfig(filename=bot.CONF.DEBUG_FILE_NAME,
-                            level=bot.CONF.DEBUG_LEVEL, format=fmt)
-        log.debug('Starting Nortbot v %s' % bot.CONF.BOT_VERSION)
-    else:
-        log.addHandler(logging.NullHandler)
+    log.info('Starting Nortbot v %s' % bot.CONF.BOT_VERSION)
 
     main()

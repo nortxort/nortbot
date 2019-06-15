@@ -72,7 +72,7 @@ This document describes the different config settings in config.ini. The differe
 
 `[integers]`
 
-**DebugLevel** - Debug level for the python logging module.
+**DebugLevel** - Debug level for the python logging module. For more information about debug levels, see [this](https://docs.python.org/2/library/logging.html#logging-levels)
 
 **MaxMatchBans** - Maximum match ban.
 
