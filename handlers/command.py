@@ -1833,7 +1833,7 @@ class CommandHandler:
                                  self._bot.format_time(track.time)))
             else:
                 self._responder('%s %s\nSource: https://youtu.be/%s' %
-                                (track.title, self._bot.format_time(track.time), "track.id))
+                                (track.title, self._bot.format_time(track.time), track.id))
         else:
             self._responder('No track playing.')
 
