@@ -54,6 +54,7 @@ class Track:
         self.image = image
         self.owner = owner
         self.type = video_type
+        self.link = 'https://youtu.be/%s' % video_id
         self.rq_time = time.time()
         self.start = 0
         self.pause = 0
