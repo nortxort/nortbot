@@ -1828,11 +1828,11 @@ class CommandHandler:
         if self._playlist.has_active_track:
             track = self._playlist.track
             if len(self._playlist.track_list) > 0:
-                self._responder('(%s) %s %s' %
+                self._responder('(%s) %s %s\n%s' %
                                 (self._playlist.current_index, track.title,
-                                 self._bot.format_time(track.time)))
+                                 self._bot.format_time(track.time), track.link))
             else:
-                self._responder('%s %s %s' % (track.title,
+                self._responder('%s %s\n%s' % (track.title,
                                 self._bot.format_time(track.time), track.link))
         else:
             self._responder('No track playing.')
