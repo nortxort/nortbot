@@ -8,7 +8,7 @@ This started out with some improvements to a few files for the bot in the room I
 ## Setup
 For a Windows user that wants a bot without having to deal with the Python aspect, I have provided a compiled Windows executable in the [Releases](https://github.com/nortxort/nortbot/releases) section.
 
-It is somewhat based on pinylib-rtc/tinybot-rtc so Python 2.7.16+ is recommended. It has been tested on Windows 7, Windows 10, Debian 8/9, and Ubuntu 16/18.
+It is somewhat based on pinylib-rtc/tinybot-rtc so Python 2.7.16+ is recommended. It has been tested on Windows 7, Windows 10, Debian 8/9/10, and Ubuntu 16/18/19.
 
 
 ### Requirements
