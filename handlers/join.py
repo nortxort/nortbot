@@ -57,7 +57,7 @@ class JoinHandler(Check):
                 self._set_approved()
                 self._greet()
             else:
-                if not Check.account(self) and not Check.vip_mode(self):
+                if not Check.account(self) or not Check.vip_mode(self):
                     if not Check.nick(self):
                         self._add_tc_info()
                         self._greet()
