@@ -69,6 +69,8 @@ This document describes the different config settings in config.ini. The differe
 
 **TryTimeBasedCheck** - Try time based checks to prevent spam.
 
+**VipMode** - In vip mode, only moderators and accounts in the approved file will be allowed to join the room.  The action for unapproved users depends on **KickAsAutoban**.
+
 
 `[integers]`
 

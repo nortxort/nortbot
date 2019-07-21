@@ -4,15 +4,15 @@
 This document describes the different commands.
 Commands have been grouped together depending on the user level required to use them.
 
-The default prefix for commands is `!`. It can be changed within the config.ini file. The prefix will be referred to as `[p]` in this document.
+The default prefix `!` for commands can be changed within the config.ini file. The prefix will be referred to as `[p]` in this document.
 
-Commands will only be enabled if the bot is using a moderator account. Commands work by both private and public messages.
+Commands will only be enabled, if the bot is using a moderator account. Also, commands work both by private and public chat message.
 
 *Commands marked with  * are private message commands only.*
 
 ## User Level System
 
-The user level system is as follows:
+The user level system is as such:
 
 **Level 0 CLIENT** - This is reserved for the bot.
 
@@ -24,7 +24,7 @@ The user level system is as follows:
 
 **Level 4 APPROVED** - This level is for approved accounts.
 
-**Level 5 BOT_OP** - Users can be assigned this level, by user level 1,2 and 3.
+**Level 5 BOT_OP** - Users can be assigned this level, by user level 1,2 and 3
 
 **Level 6 DEFAULT** - This user level is assigned a normal user.
 
@@ -34,7 +34,7 @@ When a user attempts to use a command, the bot will check if the user has the co
 
 This means, that a user with **BOT\_OP** can use **BOT_OP** and **DEFAULT** commands. A user with **SUPER** can use **SUPER**, **MODERATOR**, **APPROVED**, **BOT\_OP** and **DEFAULT** commands.
 
-The same applies to banning. **A user can not ban a more privileged user!**
+The same applies to banning. **A user can not ban a user with a lower user level!**
 
 
 ## OWNER(1) Commands.
@@ -73,13 +73,13 @@ The same applies to banning. **A user can not ban a more privileged user!**
 
 `[p]op (username)` - Make a user a temporary bot controller. User will only be a bot operator for as long as the user or bot stays in the room.
 
-`[p]deop (username)` - Remove a temporary bot controller.
+`[p]deop (username)` - Remove a temporary bot controller .
 
 `[p]apr (username)` - Make a user a permanent bot controller. This is only possible if the user is signed in.
 
-`[p]dapr (account)` - Remove an account from the permanent bot controller file.
+`[p]dapr (account)` - Remove a account from the permanent bot controller file.
 
-`[p]bb (mod account)` - Count users banned by a specific moderator. If no moderator account is provided, then the bot's account will be used.
+`[p]bb (mod account)` - Count user banned by a specific moderator. If not moderator account is provided, then the bots account will be used.
 
 `[p]noguest` - Toggle if guests should be allowed to join the room.
 
@@ -95,13 +95,15 @@ The same applies to banning. **A user can not ban a more privileged user!**
 
 `[p]nob` - Toggle notify on ban/kick.
 
+`[p]vip` - Toggle vip mode.
+
 `[p]rs` - Show room settings.
 
-`[p]top (number)` - Create a playlist from the most played tunes on last.fm. The number option determines the max number of tunes to get.
+`[p]top (number)` - Creates a playlist from the most played tunes on last.fm. The number option determines the max number of tunes to get.
 
-`[p]ran (number)` - Create a playlist from tunes other people are listening to on last.fm. The number option determines the max number of tunes to get.
+`[p]ran (number)` - Creates a playlist from tunes other people are listening to on last.fm. The number option determines the max number of tunes to get.
 
-`[p]tag (search term)` - Search last.fm for tunes matching the search term(tag).
+`[p]tag (search term)` - Searches last.fm for tunes matching the search term(tag).
 
 `[p]pls (search term)` - Search youtube for a playlist matching the search term.
 
@@ -154,11 +156,11 @@ The same applies to banning. **A user can not ban a more privileged user!**
 
 `[p]ban (username)` - Ban a user.
 
-`[p]bn (ban nick)` - Add a ban nick to the ban nicks file.*
+`[p]bn (ban nick)` - Add a ban nick to the ban nicks file.
 
 `[p]rmbn (ban nick)` - Remove a ban nick from the ban nicks file.
 
-`[p]bs (ban string)` - Add a ban string to the ban string file.**
+`[p]bs (ban string)` - Add a ban string to the ban string file.
 
 `[p]rmbs (ban string)` - Remove a ban string from file.
 
@@ -168,7 +170,7 @@ The same applies to banning. **A user can not ban a more privileged user!**
 
 `[p]list (list type)` - Count list items based on list type. Supported list types is `ap, bn, bs, ba, bl and mods`.
 
-`[p]uinfo (username)` - Show information about a user.
+`[p]uinfo (username)` - Shows information about a user.
 
 `[p]cam (username)` - Allow a user to cam in green room enabled room.
 
@@ -176,7 +178,7 @@ The same applies to banning. **A user can not ban a more privileged user!**
 
 `[p]is (instagram user)` - Search instagram.
 
-`[p]porn (keyword)` - Search Eporner API for porn.
+`[p]porn (keyword)` - Search for porn.
 
 `[p]close (username)` - Close a users broadcast.
 
@@ -193,22 +195,17 @@ The same applies to banning. **A user can not ban a more privileged user!**
 `[p]jcu (account)` - Search [jumpin.chat](http://jumpin.chat/) rooms for a user matching the account name.
 
 
-<sub>* Use asterisk at the beginning of a nickname as a wildcard, i.e. *ickname matches nicknanme</sub>
-
-<sub>** Use asterisk as a wildcard, i.e. "*example.com" would ban any message containing "example.com"</sub>
-
-
 ## DEFAULT(6) Commands.
 
 `[p]pmme` - Open a private session with the bot.
 
 `[p]opme (key)` - Change user level based on provided key. *
 
-`[p]v` - Show bot version.
+`[p]v` - Shows bot version.
 
-`[p]help` - Show a link to this help file.
+`[p]help` - Shows a help link.
 
-`[p]t` - Show the bot's uptime.
+`[p]t` - Shows the bots uptime.
 
 `[p]yt (search term)` - Search youtube.
 
@@ -220,18 +217,19 @@ The same applies to banning. **A user can not ban a more privileged user!**
 
 `[p]wp` - Show who played the current track.
 
-`[p]acspy (account)` - Show information about a Tinychat account.
+`[p]acspy (account)` - Shows information about a tinychat account.
 
-`[p]urb (search term)` - Search UrbanDictionary for definitions.
+`[p]urb (search term)` - Search urbandictionary for definitions.
 
-`[p]wea (city)` - Show weather data for a given city.
+`[p]wea (city)` - Shows weather data for a given city.
 
-`[p]ip (IP or domain)` - Show whois information for a given IP/domain.
+`[p]ip (IP or domain)` - Shows whois information for a given IP/domain.
 
 `[p]cn` - Random Chuck Norris quote/joke.
 
 `[p]8ball (question)` - Magic 8ball.
 
-`[p]roll` - Roll a die.
+`[p]roll` - Roll a dice.
 
 `[p]flip` - Flip a coin.
+

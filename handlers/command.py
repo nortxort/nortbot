@@ -152,6 +152,9 @@ class CommandHandler:
             elif cmd == 'nob':
                 self.do_notify_on_ban()  # new
 
+            elif cmd == 'vip':
+                self.do_vip_mode()  # new
+
             elif cmd == 'rs':
                 self.do_room_settings()
 
@@ -688,6 +691,13 @@ class CommandHandler:
         """
         self._conf.NOTIFY_ON_BAN = not self._conf.NOTIFY_ON_BAN
         self._responder('Notify On Ban: %s' % self._conf.NOTIFY_ON_BAN)
+
+    def do_vip_mode(self):
+        """
+        Toggle vip mode.
+        """
+        self._conf.VIP_MODE = not self._conf.VIP_MODE
+        self._responder('Vip Mode: %s' % self._conf.VIP_MODE)
 
     def do_room_settings(self):
         """

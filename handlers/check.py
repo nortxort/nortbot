@@ -35,7 +35,6 @@ class Check(object):
     """
     Class for checking against the different ban settings.
     """
-
     def __init__(self, bot, user, config, msg=None):
         self._bot = bot
         self._user = user
@@ -118,6 +117,34 @@ class Check(object):
 
                 if self._conf.NOTIFY_ON_BAN:
                     self._bot.responder('Auto-Banned: (lurkers not allowed)',
+                                        timeout=self._bot.rand_float())
+
+            return True
+
+        return False
+
+    def vip_mode(self):
+        """
+        Check if the room is in vip mode.
+
+        :return: True if in vip mode is enabled.
+        :rtype: bool
+        """
+        log.debug('checking vip mode')
+        if self._conf.VIP_MODE:
+
+            if self._conf.USE_KICK_AS_AUTOBAN:
+                self._bot.send_kick_msg(self._user.handle)
+
+                if self._conf.NOTIFY_ON_BAN:
+                    self._bot.responder('Auto-Kicked: (vip mode enabled)',
+                                        timeout=self._bot.rand_float())
+
+            else:
+                self._bot.send_ban_msg(self._user.handle)
+
+                if self._conf.NOTIFY_ON_BAN:
+                    self._bot.responder('Auto-Banned: (vip mode enabled)',
                                         timeout=self._bot.rand_float())
 
             return True
