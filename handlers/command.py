@@ -726,7 +726,7 @@ class CommandHandler:
             except ValueError:
                 self._responder('Only numbers allowed.')
             else:
-                if 0 < chart_items < 30:
+                if 0 < chart_items <= 30:
                     self._responder('Creating a playlist...')
                     _items = lastfm.chart(chart_items)
                     if _items is not None:
