@@ -130,7 +130,7 @@ class Check(object):
         :return: True if in vip mode is enabled.
         :rtype: bool
         """
-        log.debug('checking vip mode')
+        log.debug('checking vip mode, enabled=%s' % self._conf.VIP_MODE)
         if self._conf.VIP_MODE:
 
             if self._conf.USE_KICK_AS_AUTOBAN:

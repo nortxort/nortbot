@@ -46,7 +46,7 @@ class JoinHandler(Check):
         """
         log.info('handling join for: %s' % self._user)
 
-        if self._user.account:
+        if self._user.account is not None:
 
             if self._user.is_mod:
                 self._add_tc_info()
@@ -62,7 +62,9 @@ class JoinHandler(Check):
                         self._add_tc_info()
                         self._greet()
         else:
-            if not Check.guest_entry(self) and not Check.lurker(self):
+            if not Check.guest_entry(self) and not Check.lurker(self) \
+                    and not Check.vip_mode(self):
+
                 if not Check.nick(self):
                     self._greet()
 

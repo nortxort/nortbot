@@ -32,7 +32,6 @@ class User(object):
     """
     Class representing a tinychat room user.
     """
-
     def __init__(self, **kwargs):
         self.location = None
         self.nick = kwargs.get('nick', '')
@@ -61,6 +60,9 @@ class User(object):
         self._is_mod = kwargs.get('mod', False)             # readonly
         self._is_owner = kwargs.get('owner', False)         # readonly
         self._join_time = datetime.now()                    # readonly
+
+        if self._account == '':
+            self._account = None
 
         if self.is_owner:
             self.level = UserLevel.OWNER
