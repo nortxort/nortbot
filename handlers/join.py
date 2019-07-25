@@ -57,7 +57,7 @@ class JoinHandler(Check):
                 self._set_approved()
                 self._greet()
             else:
-                if not Check.account(self) or not Check.vip_mode(self):
+                if not Check.account(self) and not Check.vip_mode(self):
                     if not Check.nick(self):
                         self._add_tc_info()
                         self._greet()
@@ -80,7 +80,7 @@ class JoinHandler(Check):
             self._bot.console.write('Moderator joined: %s:%s:%s' %
                                     (self._user.nick, self._user.handle,
                                      self._user.account), Color.B_RED)
-        elif self._user.account != '':
+        elif self._user.account is not None:
             self._bot.console.write('User joined: %s:%s:%s' %
                                     (self._user.nick, self._user.handle,
                                      self._user.account), Color.B_GREEN)
