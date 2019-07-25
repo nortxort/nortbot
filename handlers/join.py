@@ -94,7 +94,7 @@ class JoinHandler(Check):
         if self._conf.GREET:
             if not self._user.nick.startswith('guest-'):
 
-                if self._user.account != '':
+                if self._user.account is not None:
                     # using responder with timeout
                     self._bot.responder('Welcome to the room %s:%s:%s' %
                                         (self._user.nick, self._user.account,
