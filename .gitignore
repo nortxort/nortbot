@@ -4,3 +4,5 @@
 *.bak
 rooms/*
 *.sh
+.idea/
+*.iws
