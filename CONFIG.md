@@ -71,6 +71,8 @@ This document describes the different config settings in config.ini. The differe
 
 **VipMode** - In vip mode, only moderators and accounts in the approved file will be allowed to join the room.  The action for unapproved users depends on **KickAsAutoban**.
 
+**EnableVoting** - If enabled, users will be able to vote to ban/kick/close other users.
+
 
 `[integers]`
 

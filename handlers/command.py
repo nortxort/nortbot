@@ -31,7 +31,7 @@ from users import UserLevel
 from util import string_util, file_handler, thread_task
 from apis import Youtube, TinychatApi, JumpinChatApi, lastfm, locals_, other
 from lc import LiveCount
-
+from vote import Vote
 
 log = logging.getLogger(__name__)
 
@@ -98,7 +98,7 @@ class CommandHandler:
                 self.do_clear_bad_accounts()
 
             elif cmd == 'clrap':
-                self.do_clear_approved_users()  # new
+                self.do_clear_approved_users()
 
             elif cmd == 'kill':
                 self.do_kill()
@@ -111,7 +111,7 @@ class CommandHandler:
             if cmd == 'mi':
                 self.do_media_info()
 
-            elif cmd == 'dev':  # new
+            elif cmd == 'dev':
                 self.do_dev()
 
         if self._user.level <= UserLevel.MODERATOR:
@@ -122,13 +122,13 @@ class CommandHandler:
             elif cmd == 'deop':
                 self.do_deop_user(cmd_arg)
 
-            elif cmd == 'apr':  # new
+            elif cmd == 'apr':
                 self.do_approve(cmd_arg)
 
-            elif cmd == 'dapr':  # new
+            elif cmd == 'dapr':
                 self.do_de_approve(cmd_arg)
 
-            elif cmd == 'bb':  # new
+            elif cmd == 'bb':
                 self.do_banned_by(cmd_arg)
 
             elif cmd == 'noguest':
@@ -150,10 +150,13 @@ class CommandHandler:
                 self.do_kick_as_ban()
 
             elif cmd == 'nob':
-                self.do_notify_on_ban()  # new
+                self.do_notify_on_ban()
 
             elif cmd == 'vip':
-                self.do_vip_mode()  # new
+                self.do_vip_mode()
+
+            elif cmd == 'vo':  # new
+                self.do_voting()
 
             elif cmd == 'rs':
                 self.do_room_settings()
@@ -209,25 +212,28 @@ class CommandHandler:
                 self.do_play_youtube_search(cmd_arg)
 
             elif cmd == 'lc':
-                self.do_live_count(cmd_arg)  # new
+                self.do_live_count(cmd_arg)
 
             elif cmd == 'lcw':
-                self.do_live_count_watch_room(cmd_arg)  # new
+                self.do_live_count_watch_room(cmd_arg)
 
             elif cmd == 'lcr':
-                self.do_remove_live_count_room(cmd_arg)  # new
+                self.do_remove_live_count_room(cmd_arg)
 
             elif cmd == 'lci':
-                self.do_live_count_interval(cmd_arg)  # new
+                self.do_live_count_interval(cmd_arg)
 
             elif cmd == 'lcm':
-                self.do_live_count_most_active()  # new
+                self.do_live_count_most_active()
 
             elif cmd == 'lcs':
-                self.do_live_count_status()  # new
+                self.do_live_count_status()
 
             elif cmd == 'lcc':
-                self.do_live_count_close()  # new
+                self.do_live_count_close()
+
+            elif cmd == 'cv':
+                self.do_vote_cancel()  # new
 
         if self._user.level <= UserLevel.BOT_OP:
 
@@ -273,14 +279,14 @@ class CommandHandler:
             elif cmd == 'cam':
                 self.do_cam_approve(cmd_arg)
 
-            elif cmd == 'cbc':  # new
+            elif cmd == 'cbc':
                 self.do_broadcast(cmd_arg)
 
             elif cmd == 'is':
-                self._pool.add_task(self.do_instagram_search, cmd_arg)  # new
+                self._pool.add_task(self.do_instagram_search, cmd_arg)
 
             elif cmd == 'porn':
-                self._pool.add_task(self.do_porn_search, cmd_arg)  # new
+                self._pool.add_task(self.do_porn_search, cmd_arg)
 
             elif cmd == 'close':
                 self.do_close_broadcast(cmd_arg)
@@ -295,13 +301,13 @@ class CommandHandler:
                 self.do_unban(cmd_arg)
 
             elif cmd == 'jcd':
-                self._pool.add_task(self.do_jc_directory)  # new
+                self._pool.add_task(self.do_jc_directory)
 
             elif cmd == 'jcr':
-                self._pool.add_task(self.do_jc_room_info, cmd_arg)  # new
+                self._pool.add_task(self.do_jc_room_info, cmd_arg)
 
             elif cmd == 'jcu':
-                self._pool.add_task(self.do_jc_user_search, cmd_arg)  # new
+                self._pool.add_task(self.do_jc_user_search, cmd_arg)
 
         if (self._conf.PUBLIC_CMD and self._user.level <= UserLevel.DEFAULT) \
                 or self._user.level < UserLevel.DEFAULT:
@@ -362,6 +368,21 @@ class CommandHandler:
 
             elif cmd == 'flip':
                 self.do_flip_coin()
+
+        if self._conf.ENABLE_VOTING:
+
+            # Voting
+            if cmd == 'vtb':
+                self.do_vote_session(cmd_arg, 'ban')  # new
+
+            elif cmd == 'vtk':
+                self.do_vote_session(cmd_arg, 'kick')  # new
+
+            elif cmd == 'vtc':
+                self.do_vote_session(cmd_arg, 'close')  # new
+
+            elif cmd == 'vote':
+                self.do_vote(cmd_arg)  # new
 
     # OWNER Command Methods.
     def do_make_mod(self, account):
@@ -698,6 +719,20 @@ class CommandHandler:
         """
         self._conf.VIP_MODE = not self._conf.VIP_MODE
         self._responder('Vip Mode: %s' % self._conf.VIP_MODE)
+
+    def do_voting(self):
+        """
+        Enable/Disable voting.
+
+        NOTE: If a voting session is active when
+        disabling voting. Then that session will be cancelled.
+        """
+        self._conf.ENABLE_VOTING = not self._conf.ENABLE_VOTING
+
+        if isinstance(self._bot.vote, Vote) and self._bot.vote.is_active:
+            self.do_vote_cancel(True)
+        else:
+            self._responder('Voting Enabled: %s' % self._conf.ENABLE_VOTING)
 
     def do_room_settings(self):
         """
@@ -1229,6 +1264,27 @@ class CommandHandler:
         else:
             self._bot.live_count.disconnect()
             self._bot.live_count = None
+
+    def do_vote_cancel(self, disable=False):
+        """
+        Cancel a vote session.
+
+        :param disable:
+        :type disable: bool
+        """
+        if self._msg.type == 2:
+            self._responder('Not supported in PM.')
+        else:
+            if isinstance(self._bot.vote, Vote) and self._bot.vote.is_active:
+                if self._bot.vote.cancel():
+                    if disable:
+                        self._responder('Voting Enabled: %s' % self._conf.ENABLE_VOTING)
+                    else:
+                        self._responder('%s cancelled vote to %s %s' %
+                                        (self._user.nick, self._bot.vote.active_vote_type,
+                                         self._bot.vote.vote_user.nick))
+
+                    self._bot.vote = None
 
     # BOT_OP Command Methods.
     def do_clear(self):
@@ -2034,3 +2090,81 @@ class CommandHandler:
         Flip a coin.
         """
         self._responder('The coin was: %s' % locals_.flip_coin())
+
+    def do_vote_session(self, cmd_args, vote_type):
+        """
+        Start a voting session.
+
+        :param cmd_args: A username and optionally a session time in seconds.
+        :type cmd_args: str
+        :param vote_type: The type of vote to start.
+        :type vote_type: str
+        """
+        log.debug('vote session: %s, vote type: %s' % (cmd_args, vote_type))
+        if self._msg.type == 2:
+            self._responder('Not supported in PM.')
+        else:
+            if len(cmd_args) == 0:
+                self._responder('Missing required user nick.')
+            else:
+
+                if isinstance(self._bot.vote, Vote) and self._bot.vote.is_active:
+                    self._responder('A vote to %s session is in progress.' %
+                                    self._bot.vote.active_vote_type)
+                else:
+                    self._bot.vote = Vote(self._bot)
+                    if self._bot.vote.can_start(self._user):
+                        session = 60
+
+                        args = cmd_args.split(' ')
+                        if len(args) > 1:
+                            try:
+                                # use string_util to convert 5m or such to int(seconds)
+                                session = int(args[1])
+                            except ValueError:
+                                self._responder('2. argument must be seconds as integer.')
+                                return
+                            else:
+                                if session < 60:
+                                    self._responder('Vote session should be >= 60 seconds.')
+                                    return
+
+                        user = self._bot.users.search_by_nick(args[0])
+                        if user is not None:
+
+                            if vote_type in ['ban', 'kick'] and user.level <= UserLevel.MODERATOR:
+                                self._responder('You can\'t vote to %s this user.' % vote_type)
+                            else:
+                                if self._bot.vote.start(user, session, vote_type):
+                                    # maybe add session time to this msg
+                                    self._responder('Vote to {0} has started.\n '
+                                                    'Vote using {1}vote yes or {1}vote no'
+                                                    .format(vote_type, self._conf.PREFIX))
+                        else:
+                            self._responder('No user named: %s' % args[0])
+                    else:
+                        self._responder('You are not allowed to start a vote session.')
+
+    def do_vote(self, vote):
+        """
+        Cast a vote to the vote session.
+
+        :param vote: The yes/no vote to cast to the vote session.
+        :type vote: str
+        """
+        if isinstance(self._bot.vote, Vote) and self._bot.vote.is_active:
+            if self._user.handle in self._bot.vote.has_voted:
+                # if a user already has voted, don't do anything
+                log.debug('%s already voted' % self._user)
+                pass
+            else:
+                vote = vote.strip()
+                if vote == '':
+                    # cant vote blank
+                    log.debug('%s voted blank' % self._user)
+                    return
+
+                if self._bot.vote.vote(self._user, vote):
+                    # the user has voted successfully, respond in PM
+                    log.debug('%s voted successfully' % self._user)
+                    self._bot.responder('Your %s vote was accepted' % vote, msg_type=2)

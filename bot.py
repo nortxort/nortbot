@@ -54,6 +54,7 @@ class NortBot(tinychat.Client):
     pool = ThreadPool(CONF.THREAD_POOL)
     live_count = None
     _init_time = time.time()
+    vote = None
 
     @property
     def config_path(self):

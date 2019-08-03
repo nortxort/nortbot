@@ -30,7 +30,7 @@ import sys
 from ConfigParser import SafeConfigParser
 
 # bot version
-__version__ = '1.1.0.5'
+__version__ = '1.1.0.6'
 
 # default config sections
 CONFIG_SECTIONS = ['strings', 'booleans', 'integers']
@@ -60,7 +60,6 @@ class Config:
     """
     Class representing the config file.
     """
-
     def __init__(self, file_path='', file_name='config.ini'):
         """
         Initialize the Config class.
@@ -254,6 +253,7 @@ ALLOW_LURKERS = config.get('booleans', 'AllowLurkers', rtype='bool')
 ALLOW_GUESTS_NICKS = config.get('booleans', 'AllowGuestsNicks', rtype='bool')
 USE_KICK_AS_AUTOBAN = config.get('booleans', 'KickAsAutoban', rtype='bool')
 VIP_MODE = config.get('booleans', 'VipMode', rtype='bool')
+ENABLE_VOTING = config.get('booleans', 'EnableVoting', rtype='bool')
 TRY_TIME_BASED_CHECKS = config.get(
     'booleans', 'TryTimeBasedCheck', rtype='bool')
 NOTIFY_ON_BAN = config.get('booleans', 'NotifyOnBan', rtype='bool')
