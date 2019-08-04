@@ -228,19 +228,23 @@ class Vote:
         return len(self._has_voted) * 100 / len(self._current_room_users)
 
     def _decide_vote(self):
-        # maybe call this after each vote?
+        # decide based on vote percentage and votes
         percentage = self._calculate_vote_percentage()
         # at least 1/3 or the room should have voted. maybe adjust this
         if percentage >= 33:
             if self._was_vote_yes():
-                self._bot.responder('With %s voters (%s%%) the room has decided to %s %s' %
+                self._bot.responder('With %s voters (%s%%) the room has decided to %s %s.' %
                                     (len(self._has_voted), percentage, self._vote_type,
                                      self._user_to_vote.nick))
                 self._vote_action()
             else:
-                self._bot.responder('With %s voters (%s%%) the room has decided NOT to %s %s' %
+                self._bot.responder('With %s voters (%s%%) the room has decided NOT to %s %s.' %
                                     (len(self._has_voted), percentage, self._vote_type,
                                      self._user_to_vote.nick))
+        else:
+            self._bot.responder('With %s voters (%s%%) there were not '
+                                'enough votes to make a decision.' %
+                                (len(self._has_voted), percentage))
 
     def _vote_action(self):
         # initiate the action of the vote, based on vote type
