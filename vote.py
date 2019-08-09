@@ -248,8 +248,10 @@ class Vote:
 
     def _vote_action(self):
         # initiate the action of the vote, based on vote type
-        # make sure the user hasn't left the room
         user = self._bot.users.search(self._user_to_vote.handle)
+        if user is None:
+            user = self._bot.users.search_by_nick(self._user_to_vote.nick)
+
         log.debug('%s' % user)
         if user is not None:
 
@@ -262,5 +264,7 @@ class Vote:
             elif self._vote_type == 'close':
                 if user.is_broadcasting:
                     self._bot.send_close_user_msg(user.handle)
-                    # prevent the user from camming again
-                    user.can_broadcast = False
+                # prevent further user cam
+                user.can_broadcast = False
+        # else:
+        #     self._bot.responder('%s ran like a dog.' % self._user_to_vote.nick)

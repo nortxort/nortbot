@@ -276,15 +276,24 @@ class NortBot(tinychat.Client):
         :param youtube: The YoutubeMessage object.
         :type youtube: message.YoutubeMessage
         """
-        if not youtube.is_response:
+        if user is None:
+            track = Youtube.id_details(youtube.video_id)
+            self.playlist.start('paused @ join', track)
+            self.playlist.pause(youtube.offset)
 
-            if self.playlist.has_active_track:
-                self.timer.cancel()
-            self.playlist.pause()
+            self.console.write('[YOUTUBE] %s is paused.' % youtube.title)
 
-            self.console.write('%s paused %s at %s' %
-                               (user.nick, youtube.title,
-                                youtube.offset), Color.B_YELLOW)
+        else:
+
+            if not youtube.is_response:
+
+                if self.playlist.has_active_track:
+                    self.timer.cancel()
+                self.playlist.pause()
+
+                self.console.write('%s paused %s at %s' %
+                                   (user.nick, youtube.title,
+                                    youtube.offset), Color.B_YELLOW)
 
     # CONFIRMED. If a video is stopped(by a mod)
     # and there is remaining tracks in the playlist, then
