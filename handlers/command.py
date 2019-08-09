@@ -2167,4 +2167,4 @@ class CommandHandler:
                 if self._bot.vote.vote(self._user, vote):
                     # the user has voted successfully, respond in PM
                     log.debug('%s voted successfully' % self._user)
-                    self._bot.responder('Your %s vote was accepted' % vote, msg_type=2)
+                    self._bot.responder('Your %s vote was accepted.' % vote, msg_type=2, user=self._user)

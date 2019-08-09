@@ -292,6 +292,8 @@ class Client:
         """
         if message:
             json_data = json.loads(message)
+
+            log.debug('[RAW DATA] %s' % json_data)
             event = json_data['tc']
 
             if event == 'ping':
