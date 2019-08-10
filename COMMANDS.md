@@ -244,7 +244,7 @@ The same applies to banning. **A user can not ban a more privileged user!**
 
 ### Voting Commands
 
-*These commands needs to be enabled in the config.ini. Alternatively, they can be enabled by a moderator as described under **MODERATOR** commands. **A vote session can only be started by a user who has been in the room for more than 5 minuttes.*** 
+*These commands needs to be enabled in the config.ini. Alternatively, they can be enabled by a moderator as described under **MODERATOR** commands. **A vote session can only be started by a user who has been in the room for more than 5 minutes.*** 
 
 `[p]vtb (username)` - Start a vote to ban session.
 
