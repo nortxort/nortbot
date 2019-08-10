@@ -335,7 +335,10 @@ class Youtube(object):
                 if results == 0 and len(tracks) > 0:
                     return tracks[0]
 
-                return tracks
+                if len(tracks) > 0:
+                    return tracks
+                else:
+                    return None
 
             return None
 
