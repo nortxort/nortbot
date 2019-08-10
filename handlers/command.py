@@ -2102,7 +2102,8 @@ class CommandHandler:
         """
         log.debug('vote session: %s, vote type: %s' % (cmd_args, vote_type))
         if self._msg.type == 2:
-            self._responder('Not supported in PM.')
+            # vote session can't be started from PM
+            pass
         else:
             if len(cmd_args) == 0:
                 self._responder('Missing required user nick.')
@@ -2122,11 +2123,10 @@ class CommandHandler:
                                 # use string_util to convert 5m or such to int(seconds)
                                 session = int(args[1])
                             except ValueError:
-                                self._responder('2. argument must be seconds as integer.')
                                 return
                             else:
-                                if session < 60:
-                                    self._responder('Vote session should be >= 60 seconds.')
+                                if not 60 <= session <= 600:
+                                    self._responder('Vote session must be between 60 seconds and 10 minutes.')
                                     return
 
                         user = self._bot.users.search_by_nick(args[0])
@@ -2141,9 +2141,11 @@ class CommandHandler:
                                                     'Vote using {1}vote yes or {1}vote no'
                                                     .format(vote_type, self._conf.PREFIX))
                         else:
-                            self._responder('No user named: %s' % args[0])
+                            log.debug('no user named: %s' % args[0])
+                            # self._responder('No user named: %s' % args[0])
                     else:
-                        self._responder('You are not allowed to start a vote session.')
+                        log.debug('%s is not allowed to start a vote session.' % self._user)
+                        # self._responder('You are not allowed to start a vote session.')
 
     def do_vote(self, vote):
         """
