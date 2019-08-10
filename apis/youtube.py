@@ -45,14 +45,14 @@ class Track:
     """
     Class representing a youtube video.
     """
-
     def __init__(self, video_id='', video_time=0, video_title='',
-                 image='', owner=None, video_type='youTube'):
+                 image='', owner=None, embeddable=True, video_type='youTube'):
         self.id = video_id
         self.time = video_time
         self.title = video_title
         self.image = image
         self.owner = owner
+        self.is_embeddable = embeddable
         self.type = video_type
         self.link = 'https://youtu.be/%s' % video_id
         self.rq_time = time.time()
@@ -85,7 +85,7 @@ class Youtube(object):
                           'key={0}&playlistId={1}&maxResults=50&part=snippet,id'
 
     _video_details_url = 'https://www.googleapis.com/youtube/v3/videos?' \
-                         'id={1}&key={0}&part=contentDetails,snippet'
+                         'id={1}&key={0}&part=contentDetails,snippet,status'
 
     @classmethod
     def search(cls, search_term, results=0):
@@ -130,7 +130,7 @@ class Youtube(object):
         :rtype: Track | list | None
         """
         if cls._is_youtube_id(search_term):
-            return cls.id_details(search_term)
+            return cls.id_details(search_term, is_youtube_id=True)
 
         elif cls._is_youtube_url(search_term):
 
@@ -198,7 +198,7 @@ class Youtube(object):
                 return play_lists
 
     @classmethod
-    def id_details(cls, id_, is_playlist_id=False):
+    def id_details(cls, id_, is_playlist_id=False, is_youtube_id=False):
         """
         Get the details of a youtube ID.
 
@@ -211,13 +211,15 @@ class Youtube(object):
         :type id_: str
         :param is_playlist_id: Is the ID a playlist ID.
         :type is_playlist_id: bool
+        :param is_youtube_id: Is the ID a youtube ID.
+        :type is_youtube_id: bool
         :return: A Track, a list of Tracks or None.
         :rtype: Track | list | None
         """
         if is_playlist_id:
             return cls._playlist_videos(id_)
         else:
-            return cls._details(id_, check=False)
+            return cls._details(id_, check=False, is_youtube_id=is_youtube_id)
 
     # Private methods
     @classmethod
@@ -344,8 +346,7 @@ class Youtube(object):
 
     @classmethod
     def _is_blocked(cls, blocked):
-        log.debug('blocked in: %s, ALLOWED_COUNTRIES: %s' %
-                  (blocked, ALLOWED_COUNTRIES))
+        log.debug('blocked in: %s, ALLOWED_COUNTRIES: %s' % (blocked, ALLOWED_COUNTRIES))
         if len(ALLOWED_COUNTRIES) > 0:
 
             for country in ALLOWED_COUNTRIES:
@@ -357,8 +358,7 @@ class Youtube(object):
 
     @classmethod
     def _is_allowed(cls, allowed):
-        log.debug('allowed in: %s, ALLOWED_COUNTRIES: %s' %
-                  (allowed, ALLOWED_COUNTRIES))
+        log.debug('allowed in: %s, ALLOWED_COUNTRIES: %s' % (allowed, ALLOWED_COUNTRIES))
         if len(ALLOWED_COUNTRIES) > 0:
 
             for country in ALLOWED_COUNTRIES:
@@ -369,7 +369,7 @@ class Youtube(object):
         return True
 
     @classmethod
-    def _details(cls, video_id, check=True):
+    def _details(cls, video_id, check=True, is_youtube_id=False):
 
         log.debug('video details for: %s, check: %s' % (video_id, check))
 
@@ -381,13 +381,28 @@ class Youtube(object):
             return None
         else:
             if 'items' in response.json:
+
+                is_embeddable = True
                 track = None
+
                 if len(response.json['items']) != 0:
 
-                    # does deleted videos contain contentDetails?
-                    if 'contentDetails' in response.json['items'][0]:
+                    item = response.json['items'][0]
 
-                        content_details = response.json['items'][0]['contentDetails']
+                    # does deleted videos contain contentDetails?
+                    if 'contentDetails' in item:
+
+                        if 'status' in item:
+                            if 'embeddable' in item['status']:
+                                is_embeddable = item['status']['embeddable']
+
+                                if not is_youtube_id and not is_embeddable:
+                                    return track  # None
+
+                                if not is_embeddable:
+                                    is_embeddable = False
+
+                        content_details = item['contentDetails']
 
                         if check:
 
@@ -407,6 +422,6 @@ class Youtube(object):
                         image_medium = response.json['items'][0]['snippet']['thumbnails']['medium']['url']
 
                         track = Track(video_id=video_id, video_time=video_time,
-                                      video_title=video_title, image=image_medium)
+                                      video_title=video_title, image=image_medium, embeddable=is_embeddable)
 
                 return track

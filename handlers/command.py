@@ -1949,9 +1949,14 @@ class CommandHandler:
             self._responder('Please specify youtube title or link.')
         else:
             youtube = Youtube.search(search_str)
+
             if youtube is None:
                 log.warning('youtube request returned: %s' % youtube)
                 self._responder('No video(s) found: %s' % search_str)
+
+            elif not youtube.is_embeddable:
+                self._responder('This track is not embeddable.')
+
             else:
                 if isinstance(youtube, list) and len(youtube) > 1:
                     self._playlist.add_list(self._user.nick, youtube)
