@@ -63,10 +63,10 @@ class Track:
         return '<%s id=%s, ' \
                'time=%s, title=%s, image=%s, ' \
                'owner=%s, type=%s, rq_time=%s, ' \
-               'start=%s, pause=%s>' % \
+               'start=%s, pause=%s, embeddable=%s>' % \
                (self.__class__.__name__, self.id, self.time,
                 self.title, self.image, self.owner, self.type,
-                self.rq_time, self.start, self.pause)
+                self.rq_time, self.start, self.pause, self.is_embeddable)
 
 
 class Youtube(object):
