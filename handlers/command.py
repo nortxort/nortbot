@@ -29,7 +29,7 @@ import time
 
 from users import UserLevel
 from util import string_util, file_handler, thread_task
-from apis import Youtube, TinychatApi, JumpinChatApi, lastfm, locals_, other
+from apis import Youtube, TinychatApi, JumpinChatApi, WikiPedia, lastfm, locals_, other
 from lc import LiveCount
 from vote import Vote
 
@@ -355,6 +355,9 @@ class CommandHandler:
 
             elif cmd == 'ip':
                 self._pool.add_task(self.do_whois_ip, cmd_arg)
+
+            elif cmd == 'wiki':
+                self._pool.add_task(self.do_wiki, cmd_arg)
 
             # Just for fun.
             elif cmd == 'cn':
@@ -2063,6 +2066,23 @@ class CommandHandler:
             else:
                 self._responder(whois)
 
+    def do_wiki(self, search_term):
+        """
+        Search wikipedia.
+
+        :param search_term: The search term to search wikipedia for.
+        :type search_term: str
+        """
+        if len(search_term.strip()) == 0:
+            self._responder('Missing search term.')
+        else:
+            wiki = WikiPedia.search(search_term)
+
+            if not wiki.has_data:
+                self._responder('Could not find anything on wikipedia matching: %s' % search_term)
+            else:
+                self._responder('%s %s' % (wiki.summary, wiki.link))
+
     # == Just For Fun Command Methods. ==
     def do_chuck_noris(self):
         """
@@ -2162,16 +2182,17 @@ class CommandHandler:
         if isinstance(self._bot.vote, Vote) and self._bot.vote.is_active:
             if self._user.handle in self._bot.vote.has_voted:
                 # if a user already has voted, don't do anything
-                log.debug('%s already voted' % self._user)
+                log.debug('%s already voted.' % self._user)
                 pass
             else:
                 vote = vote.strip()
                 if vote == '':
                     # cant vote blank
-                    log.debug('%s voted blank' % self._user)
+                    log.debug('%s voted blank.' % self._user)
                     return
 
                 if self._bot.vote.vote(self._user, vote):
                     # the user has voted successfully, respond in PM
                     log.debug('%s voted successfully' % self._user)
                     self._bot.responder('Your %s vote was accepted.' % vote, msg_type=2, user=self._user)
+
