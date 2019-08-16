@@ -24,6 +24,8 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 """
 
+# code modified from https://github.com/lu-ci/apex-sigma-core/tree/master/sigma/modules/searches/wikipedia
+
 
 import logging
 from util import web
