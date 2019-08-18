@@ -1294,7 +1294,7 @@ class CommandHandler:
         """
         Clears the chat box.
         """
-        self._responder('_{:\n^36}_'.format(''))
+        self._responder('_{:\n^60}_'.format(''))
 
     def do_nick(self, new_nick):
         """
