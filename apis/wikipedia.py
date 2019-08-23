@@ -49,7 +49,7 @@ class WikiResponse:
         :rtype: bool
         """
         if self._data is not None and \
-                len(self._data) == 4 and len(self._data[1]) > 1:
+                len(self._data) == 4 and len(self._data[1]) >= 1:
             return True
 
         return False
@@ -110,7 +110,8 @@ class WikiPedia(object):
         :return: A WikiResponse.
         :rtype: WikiResponse
         """
-        url = cls.base_url.format('&action=opensearch&search=%s&redirects=resolve' % search_term)
+        search = web.quote(search_term.encode('UTF-8', 'ignore'))
+        url = cls.base_url.format('&action=opensearch&search=%s&redirects=resolve' % search)
         response = web.get(url=url, as_json=True)
 
         if len(response.errors) > 0:
