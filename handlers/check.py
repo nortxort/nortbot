@@ -229,7 +229,7 @@ class Check(object):
 
                 if bad.startswith('*'):
                     _ = bad.replace('*', '')
-                    if _ in self._msg.text:
+                    if _ in repr(self._msg.text):
 
                         return True
 
