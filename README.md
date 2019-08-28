@@ -6,21 +6,23 @@ This started out with some improvements to a few files for the bot in the room I
 
 
 ## Setup
-For a Windows user that wants a bot without having to deal with the Python aspect, I have provided a compiled Windows executable in the [Releases](https://github.com/nortxort/nortbot/releases) section.
+For a Windows user that wants a bot without having to deal with the Python aspect, I have provided a compiled Windows executable in the [**Releases**](https://github.com/nortxort/nortbot/releases) section.
 
-It is somewhat based on pinylib-rtc/tinybot-rtc so Python 2.7.16+ is recommended. It has been tested on Windows 7/8.1/10, Debian 8/9/10, and Ubuntu 16/18/19.
+It is somewhat based on pinylib-rtc/tinybot-rtc so Python 2.7.16+ is required. It has been tested on Windows 10, Debian 9/10, and Ubuntu 16/18/19.
 
 
 ### Requirements
 
-See [requirements.txt](https://github.com/nortxort/nortbot/blob/master/requirements.txt) for information.
+[Requirements.txt](https://github.com/nortxort/nortbot/blob/master/requirements.txt) contains a list of requirements which can be installed with `pip install -r /path/to/requirements.txt`
 
 
 ## Usage
 
-Change config.ini settings to fit your needs. ***Don’t forget to change the default key!*** Then run nortbot.py. 
-For an explanation of the different config settings, read through [config settings](https://github.com/nortxort/nortbot/blob/master/CONFIG.md).
-Command explanations can be found [here](https://github.com/nortxort/nortbot/blob/master/COMMANDS.md).
+Change [config.ini](https://github.com/nortxort/nortbot/blob/master/config.ini) settings to fit your needs. ***Don’t forget to change the default key!*** Then run `nortbot.py`. 
+
+For a detailed explanation of the different config settings, read through the [**config settings**](https://github.com/nortxort/nortbot/blob/master/CONFIG.md).
+
+Command explanations can be found [**HERE**](https://github.com/nortxort/nortbot/blob/master/COMMANDS.md).
 
 
 ## Compiling
@@ -42,12 +44,12 @@ from there run: `pyinstaller --onefile nortbot.py`.
 
 2 new directories will be created, build and dist. The **dist** directory will contain **nortbot.exe**. Copy **cacert.pem** and **config.ini** to the **dist** directory.
 
-You should now be able to run **nortbot.exe**
+You can now run `nortbot.exe`!
 
 
 ## Submitting an issue
 
-Please read through the [ISSUES](https://github.com/nortxort/nortbot/issues) before submitting a new one. If you want to submit a new issue, then use an [ISSUE TEMPLATE](https://github.com/nortxort/nortbot/issues/new/choose). **_Please_ use an issue template**, they're there for a reason! If you need more help or have questions that are not already answered in the issues, you can [join this Discord server](https://discord.gg/cHawfkb).
+Please read through the [ISSUES](https://github.com/nortxort/nortbot/issues) before submitting a new one. If you want to submit a new issue, then use an [ISSUE TEMPLATE](https://github.com/nortxort/nortbot/issues/new/choose). **_Please_ use an issue template, they're there for a reason!** If you need more help or have questions that are not already answered in the issues, you can [join this Discord server](https://discord.gg/cHawfkb).
 
 
 ## Author
