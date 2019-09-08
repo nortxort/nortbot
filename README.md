@@ -29,7 +29,8 @@ Command explanations can be found [**HERE**](https://github.com/nortxort/nortbot
 
 In order to compile simply run `compile.bat`, located in the `compile` folder. You will need the following:
 * Python 2.7.16+ in your path.
-* Possibly [Microsoft Visual C++ 2008 Redistributable Package](http://www.microsoft.com/downloads/en/details.aspx?FamilyID=9b2da534-3e03-4391-8a4d-074b9f2bc1bf&displaylang=en)
+* Possibly [Microsoft Visual C++ 2008 Redistributable Package](http://www.microsoft.com/downloads/en/details.aspx?FamilyID=9b2da534-3e03-4391-8a4d-074b9f2bc1bf&displaylang=en).
+* May need elevated permission on first run.
 
 *More details about pyinstaller's requirements can be found [HERE](https://pyinstaller.readthedocs.io/en/v3.3.1/usage.html#windows)*
 
