@@ -3,7 +3,7 @@ TITLE NortBot Compiler
 python -V > NUL 2> NUL
 if errorlevel 1 echo PYTHON NOT IN PATH! && PAUSE && EXIT
 cd %~dp0
-python -m pip install -U pyinstaller --user
+python -m pip install -U pyinstaller
 python -m pip install -r %~dp0..\requirements.txt --user
 pyinstaller -F --clean "..\nortbot.py" -p "%~dp0.."
 ECHO Copying cacert.pem
