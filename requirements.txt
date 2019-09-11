@@ -1,4 +1,4 @@
 colorama>=0.4.1
 requests>=2.22.0
 websocket-client>=0.56.0
-beautifulsoup4>=4.7.1
+beautifulsoup4>=4.8.0
