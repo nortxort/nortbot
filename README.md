@@ -1,5 +1,7 @@
 ## Nortbot
 
+**I wont be making anymore commits to this project, and as such, it will be arcived on the 1/1/2020**
+
 A bot for Tinychat chat rooms.
 
 This started out with some improvements to a few files for the bot in the room I go to. This basically led to a complete rewrite of almost everything.
