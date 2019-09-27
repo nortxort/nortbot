@@ -416,7 +416,7 @@ class CommandHandler:
         if len(account) == 0:
             self._responder('Missing account')
         else:
-            tc_user = self._bot.privacy_.remove_moderator(account)
+            tc_user = self._bot.privacy.remove_moderator(account)
             if tc_user:
                 self._responder('%s is no longer a room moderator.' % account)
 
@@ -427,7 +427,7 @@ class CommandHandler:
         """
         Toggles if the room should be shown on the directory.
         """
-        if self._bot.privacy_.show_on_directory():
+        if self._bot.privacy.show_on_directory():
             self._responder('Room IS shown on the directory.')
         else:
             self._responder('Room is NOT shown on the directory.')
@@ -436,7 +436,7 @@ class CommandHandler:
         """
         Toggles if the room should be in push2talk mode.
         """
-        if self._bot.privacy_.set_push2talk():
+        if self._bot.privacy.set_push2talk():
             self._responder('Push2Talk is enabled.')
         else:
             self._responder('Push2Talk is disabled.')
@@ -513,7 +513,7 @@ class CommandHandler:
         """
         Toggles if the room should be in greenroom mode.
         """
-        if self._bot.privacy_.set_greenroom():
+        if self._bot.privacy.set_greenroom():
             self._responder('Green room is enabled.')
         else:
             self._responder('Green room is disabled.')
