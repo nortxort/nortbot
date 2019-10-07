@@ -522,6 +522,7 @@ class Client:
         :param banlist: A list of BannedUser objects.
         :type banlist: list
         """
+        return
         for banned in banlist:
             if banned.account is not None:
                 self.console.write('Nick: %s, Account: %s, Banned By: %s' %

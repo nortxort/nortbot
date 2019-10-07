@@ -76,7 +76,8 @@ def weather_search(city):
         if WEATHER_API_KEY is None:
             return 'Missing api key.'
         else:
-            weather_api_url = 'https://api.apixu.com/v1/current.json?key=%s&q=%s' % \
+#            weather_api_url = 'https://api.apixu.com/v1/current.json?key=%s&q=%s' % \
+            weather_api_url = 'http://api.weatherstack.com/current?access_key=%s&query=%s' % \
                               (WEATHER_API_KEY, city)
 
             response = web.get(url=weather_api_url, as_json=True)
@@ -86,16 +87,18 @@ def weather_search(city):
 
             elif 'error' in response.json:
                 return response.json['error']['message']
-
             else:
                 try:
-                    pressure = response.json['current']['pressure_mb']
-                    temp_c = response.json['current']['temp_c']
-                    temp_f = response.json['current']['temp_f']
+                    wind_spd = response.json['current']['wind_speed']
+                    wind_dir = response.json['current']['wind_dir']
+                    humidity = response.json['current']['humidity']
+                    desc = response.json['current']['weather_descriptions']
+                    temp_c = response.json['current']['temperature']
+                    temp_f = 9.0/5.0 * temp_c + 32
                     query = response.json['location']['name']
                     country = response.json['location']['country']
-                    result = '%s(%s) Temperature: %sC (%sF) Pressure: %s millibars' % \
-                             (query, country, temp_c, temp_f, pressure)
+                    result = '%s(%s) Temperature: %sF (%sC) Humidity: %s Wind: %s (%s) %s' % \
+                             (query, country, temp_f, temp_c, humidity, wind_spd, wind_dir, ",".join(desc))
                     return result
                 except (IndexError, KeyError) as e:
                     log.error(e)

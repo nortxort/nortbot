@@ -46,6 +46,7 @@ other.WEATHER_API_KEY = CONF.WEATHER_KEY
 class NortBot(tinychat.Client):
 
     privacy = None
+    cmd_aliases = {}
     search_list = []
     bl_search_list = []
     is_search_list_yt_playlist = False
@@ -311,8 +312,6 @@ class NortBot(tinychat.Client):
         """
         if len(self.playlist.track_list) > 0:
             if self.playlist.is_last_track:
-                if self.connected:
-                    self.send_chat_msg('Resetting playlist.')
                 self.playlist.clear()
             else:
                 track = self.playlist.next_track
@@ -399,6 +398,13 @@ class NortBot(tinychat.Client):
             CONF.STRING_BANS = file_handler.reader(
                 self.config_path, CONF.STRING_BANS_FILE_NAME)
 
+    def get_aliases(self):
+        raw_aliases = file_handler.reader("/home/adabot/adabot/", "aliases.txt")
+        for raw_alias in raw_aliases:
+            alias = raw_alias.split(':')
+            self.cmd_aliases[alias[0]] = alias[1]
+            self.console.write('Loaded command alias: %s = %s' % (alias[0], alias[1]))
+
     @staticmethod
     def format_time(time_stamp, is_milli=False):
         """
@@ -433,6 +439,7 @@ class NortBot(tinychat.Client):
 
         if self.users.client.is_mod:
             self.send_banlist()
+            self.get_aliases()
             self.get_list(approved=True, nicks=True,
                           accounts=True, strings=True)
 
