@@ -26,6 +26,8 @@ DEALINGS IN THE SOFTWARE.
 
 import logging
 import time
+import math
+import random
 
 from users import UserLevel
 from util import string_util, file_handler, thread_task
@@ -35,6 +37,7 @@ from vote import Vote
 
 log = logging.getLogger(__name__)
 
+toke = {'countdown':0,'tokers':[],'countdownMidway':0,'nextTokers':[]}
 
 class CommandHandler:
     def __init__(self, bot, user, msg, config, pool):
@@ -55,6 +58,10 @@ class CommandHandler:
             parts = self._msg.text.split(' ')
             cmd = parts[0].lstrip(self._conf.PREFIX).lower().strip()
             cmd_arg = ' '.join(parts[1:]).strip()
+
+            # Check for an alias
+            if cmd in self._bot.cmd_aliases:
+                cmd = self._bot.cmd_aliases[cmd]
 
             self._handle_command(cmd, cmd_arg)
 
@@ -330,6 +337,12 @@ class CommandHandler:
             elif cmd == 'yt':
                 self._pool.add_task(self.do_play_youtube, cmd_arg)
 
+            elif cmd == 'play':
+                self._pool.add_task(self.do_play_youtube, cmd_arg)
+
+            elif cmd == 'p':
+                self._pool.add_task(self.do_play_youtube, cmd_arg)
+
             elif cmd == 'q':
                 self.do_playlist_status()
 
@@ -341,6 +354,7 @@ class CommandHandler:
 
             elif cmd == 'wp':
                 self.do_who_plays()
+
 
             # Tinychat API commands.
             elif cmd == 'acspy':
@@ -369,8 +383,21 @@ class CommandHandler:
             elif cmd == 'roll':
                 self.do_dice()
 
-            elif cmd == 'flip':
-                self.do_flip_coin()
+#            elif cmd == 'flip':
+#                self.do_flip_coin()
+
+            # Toke stuff
+        if cmd == 'toke':
+            self._pool.add_task(self.do_toke, cmd_arg)
+
+        elif cmd == 'join':
+            self.do_toke(cmd_arg)
+
+        elif cmd == 'spirit':
+            self.do_toke_spirit()
+
+        elif cmd == 'flip':
+            self.do_toke_flip()
 
         if self._conf.ENABLE_VOTING:
 
@@ -416,7 +443,7 @@ class CommandHandler:
         if len(account) == 0:
             self._responder('Missing account')
         else:
-            tc_user = self._bot.privacy.remove_moderator(account)
+            tc_user = self._bot.privacy_.remove_moderator(account)
             if tc_user:
                 self._responder('%s is no longer a room moderator.' % account)
 
@@ -427,7 +454,7 @@ class CommandHandler:
         """
         Toggles if the room should be shown on the directory.
         """
-        if self._bot.privacy.show_on_directory():
+        if self._bot.privacy_.show_on_directory():
             self._responder('Room IS shown on the directory.')
         else:
             self._responder('Room is NOT shown on the directory.')
@@ -436,7 +463,7 @@ class CommandHandler:
         """
         Toggles if the room should be in push2talk mode.
         """
-        if self._bot.privacy.set_push2talk():
+        if self._bot.privacy_.set_push2talk():
             self._responder('Push2Talk is enabled.')
         else:
             self._responder('Push2Talk is disabled.')
@@ -513,7 +540,7 @@ class CommandHandler:
         """
         Toggles if the room should be in greenroom mode.
         """
-        if self._bot.privacy.set_greenroom():
+        if self._bot.privacy_.set_greenroom():
             self._responder('Green room is enabled.')
         else:
             self._responder('Green room is disabled.')
@@ -1123,12 +1150,13 @@ class CommandHandler:
             self._responder('Missing search string.')
         else:
             self._bot.search_list = Youtube.search(search_str, results=5)
+            queue = self._playlist.queue
             if len(self._bot.search_list) > 0:
                 self._bot.is_search_list_yt_playlist = False
                 _ = []
                 for i, t in enumerate(self._bot.search_list):
                     info = '(%s) %s %s' % (
-                        i, t.title, self._bot.format_time(t.time))
+                        queue[1], t.title, self._bot.format_time(t.time))
                     _.append(info)
                 self._responder('\n'.join(_))
             else:
@@ -1930,6 +1958,133 @@ class CommandHandler:
         """
         self._responder(
             'Help: https://github.com/nortxort/nortbot/blob/master/COMMANDS.md')
+
+    def toker_list(self):
+        return ", ".join(toke['tokers'])
+
+    def toker_verb(self):
+        if len(toke['tokers']) == 1:
+            return "is"
+        else:
+            return "are"
+
+    def do_toke(self, arg):
+        """
+        Performs a toke countdown
+        """
+        # Sanitize argument to only digits
+        try:
+            secs = int(''.join([x for x in str(arg) if x.isdigit()]))
+        except:
+            secs = 60
+
+        if not secs:
+            secs = 60
+
+        # Limit to min 30 secs, max 3 minutes
+        if secs < 30 or secs > 180:
+            secs = 60
+
+        secs_midway = math.floor(secs / 2)
+        if toke['countdown'] > 0:
+            # Active toke, join up
+            if self._user.nick in toke['tokers']:
+                # User is already in the current toke
+                self._responder('%s %s toking in %s seconds! Type !toke to join!' % (self.toker_list(), self.toker_verb(), toke['countdown']))
+                return
+            # Add the user to the current toke
+            self._responder('%s is joining the toke with %s in %s seconds! Type !toke to join!' % (self._user.nick, self.toker_list(), toke['countdown']))
+            toke['tokers'].append(self._user.nick)
+        else:
+            # No active toke, start one
+            toke['countdown'] = secs
+            if len(toke['nextTokers']) > 0:
+                if len(toke['nextTokers']) == 1 and self._user.nick in toke['nextTokers']:
+                    self._responder('%s is starting a toke in %s seconds, type !toke to join in!' % (self._user.nick, toke['countdown']))
+                else:
+                    self._responder('%s is starting a toke with %s in %s seconds, type !toke to join in!' % (self._user.nick, ", ".join(toke['nextTokers']), toke['countdown']))
+                toke['tokers'].extend(toke['nextTokers'])
+                toke['nextTokers'] = []
+            else: 
+                self._responder('%s is starting a toke in %s seconds, type !toke to join in!' % (self._user.nick, toke['countdown']))
+                toke['tokers'] = [self._user.nick]
+            toke['countdownMidway'] = secs_midway
+            self._bot.timer.start(self.do_toke_timer, 1)
+
+    def do_toke_spirit(self):
+        """
+        Joins a timer with a different message
+        """
+        if toke['countdown'] <= 0:
+            return
+        if self._user.nick in toke['tokers']:
+            # User is already in the current toke
+            self._responder('%s %s toking in %s seconds! Type !toke to join!' % (self.toker_list(), self.toker_verb(), toke['countdown']))
+            return
+        # Add the user to the current toke
+        self._responder('%s is joining the toke in spirit with %s in %s seconds! Type !toke to join!' % (self._user.nick, self.toker_list(), toke['countdown']))
+        toke['tokers'].append(self._user.nick)
+
+    def do_toke_flip(self):
+        """
+        Randomly decides if a timer should start
+        """
+        if toke['countdown'] > 0:
+            self._responder("You can not flip during a toke, %s" % self._user.nick)
+            return
+        if self._user.nick in toke['nextTokers']:
+            self._responder("You can't flip again until after the next !toke, %s" % self._user.nick)
+            return
+        if self._user.nick in toke['tokers']:
+            return
+
+        self.toke_flip()
+
+    def toke_flip(self):
+        i = random.randint(1,420)
+        if i == 210:
+            # tie flip again
+            self._responder("%s flipped a coin. Result: %s *TIE* FREE FLIP!" % (self._user.nick, i))
+            self.toke_flip()
+        elif i == 1:
+            # grand prize loser
+            self._responder("%s flipped a coin and has been added to the next !toke. Result: %s Q.Q" % (self._user.nick, i))
+            toke['nextTokers'].append(self._user.nick)
+        elif i < 210:
+            # loser
+            self._responder("%s flipped a coin and has been added to the next !toke. Result: %s" % (self._user.nick, i))
+            toke['nextTokers'].append(self._user.nick)
+        elif i == 420:
+            # grand prize winner
+            self._responder("%s flipped a coin. Result: ** %s ** Holy shit let's toke" % (self._user.nick, i))
+            self.do_toke(60)
+        elif i > 210:
+            # winner
+            self._responder("%s flipped a coin. Result: %s A Toke Magically Starts" % (self._user.nick, i))
+            self.do_toke(60)
+
+    def do_toke_timer(self):
+        """
+        Counts down the toke timer, and performs the toke event when it's done
+        """
+        if toke['countdown'] <= 0:
+            # Toke event
+            self._responder("%s %s toking now! CHEERS!" % (self.toker_list(), self.toker_verb()))
+            toke['tokers'] = []
+            return
+        elif toke['countdown'] == toke['countdownMidway']:
+            # Halfway through timer announce
+            self._responder("%s %s toking in %s seconds! Type !toke to join!" % (self.toker_list(), self.toker_verb(), toke['countdown']))
+        elif toke['countdown'] == 10:
+            # 10 second announce
+            self._responder("%s %s toking in 10 seconds! Type !toke to join!" % (self.toker_list(), self.toker_verb()))
+        elif toke['countdown'] == 5:
+            # 5 second announce
+            self._responder("%s %s toking in 5 seconds!" % (self.toker_list(), self.toker_verb()))
+
+        # Countdown recursion
+        toke['countdown'] -= 1
+        self._bot.timer.start(self.do_toke_timer, 1)
 
     def do_uptime(self):
         """
