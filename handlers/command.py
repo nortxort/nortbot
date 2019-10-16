@@ -1456,8 +1456,6 @@ class CommandHandler:
         """
         if len(account) == 0:
             self._responder('Account can\'t be blank.')
-        elif len(account) < 3:
-            self._responder('Account to short: %s' % len(account))
         elif account in self._conf.ACCOUNT_BANS:
             self._responder('%s is already in list.' % account)
             # apparently facebook names can cause an issue here(CosmosisT)
