@@ -1,6 +1,6 @@
 ## Nortbot
 
-**I wont be making anymore commits to this project, and as such, it will be arcived on the 1/1/2020**
+**I wont be making anymore commits to this project, and as such, it will be archived on 1/1/2020**
 
 A bot for Tinychat chat rooms.
 
